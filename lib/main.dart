@@ -10,7 +10,11 @@ class MyTeamApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+<<<<<<< HEAD
       title: 'Біздің Ортақ Жоба',
+=======
+      title: 'Ортақ Жоба',
+>>>>>>> 5aa00f9407097c31a6e79abb6d62a6a794d04fa9
       theme: ThemeData(primarySwatch: Colors.blue),
       home: const HomeScreen(),
     );
