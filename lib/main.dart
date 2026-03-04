@@ -4,6 +4,20 @@ void main() {
   runApp(const MyTeamApp());
 }
 
+// Себетке алдын ала қосылған тауарлар (Глобалды тізім)
+List<Map<String, dynamic>> cartItems = [
+  {
+    'name': 'iPhone 15 Pro',
+    'price': '649 990 ₸',
+    'image': 'https://ir.ozone.ru/s3/multimedia-1-o/7129349196.jpg',
+  },
+  {
+    'name': 'Samsung Galaxy S24 Ultra',
+    'price': '599 990 ₸',
+    'image': 'https://ir.ozone.ru/s3/multimedia-f/w1200/6896605947.jpg',
+  },
+];
+
 class MyTeamApp extends StatelessWidget {
   const MyTeamApp({super.key});
 
@@ -16,12 +30,12 @@ class MyTeamApp extends StatelessWidget {
         primarySwatch: Colors.orange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const MainNavigation(), // Басты навигацияға сілтеме
+      home: const MainNavigation(),
     );
   }
 }
 
-// --- 1. НАВИГАЦИЯ (Экрандарды ауыстырып тұратын құрылым) ---
+// --- 1. НАВИГАЦИЯ ---
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});
 
@@ -32,10 +46,9 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
 
-  // Экрандар тізімі
   final List<Widget> _screens = [
     const HomeScreen(),
-    const Center(child: Text('Себет әзірге бос', style: TextStyle(fontSize: 20))), // Cart Screen (уақытша)
+    const CartScreen(), // Жаңартылған себет беті
     const ProfileScreen(),
   ];
 
@@ -64,55 +77,88 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('SellPak - Смартфондар'), centerTitle: true),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(10),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 0.65,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-        ),
-        itemCount: phoneProducts.length,
-        itemBuilder: (context, index) {
-          final phone = phoneProducts[index];
-          return GestureDetector(
-            // Тауарды басқанда Detail бетіне өту
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ProductDetailScreen(product: phone)),
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 800),
+          child: GridView.builder(
+            padding: const EdgeInsets.all(10),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.65,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
             ),
-            child: Card(
-              elevation: 5,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-              child: Column(
-                children: [
-                  Expanded(child: Image.network(phone['image'], fit: BoxFit.contain)),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(phone['name'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                        Text(phone['price'], style: const TextStyle(color: Colors.red, fontSize: 16)),
-                        const SizedBox(height: 5),
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('Сатып алу'),
+            itemCount: phoneProducts.length,
+            itemBuilder: (context, index) {
+              final phone = phoneProducts[index];
+              return GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProductDetailScreen(product: phone)),
+                ),
+                child: Card(
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  child: Column(
+                    children: [
+                      Expanded(child: Image.network(phone['image'], fit: BoxFit.contain)),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(phone['name'], style: const TextStyle(fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
+                            Text(phone['price'], style: const TextStyle(color: Colors.red, fontSize: 16)),
+                            const SizedBox(height: 5),
+                            ElevatedButton(
+                              onPressed: () {},
+                              child: const Text('Сатып алу'),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-          );
-        },
+                ),
+              );
+            },
+          ),
+        ),
       ),
     );
   }
 }
 
-// --- 3. ТАУАРДЫҢ ТОЛЫҚ БЕТІ (Product Detail) ---
+// --- 3. СЕБЕТ БЕТІ (Cart Screen) ---
+class CartScreen extends StatelessWidget {
+  const CartScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Себет'), centerTitle: true),
+      body: cartItems.isEmpty
+          ? const Center(child: Text('Себет әзірге бос', style: TextStyle(fontSize: 18)))
+          : ListView.builder(
+              padding: const EdgeInsets.all(10),
+              itemCount: cartItems.length,
+              itemBuilder: (context, index) {
+                final item = cartItems[index];
+                return Card(
+                  child: ListTile(
+                    leading: Image.network(item['image'], width: 50, fit: BoxFit.contain),
+                    title: Text(item['name'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                    subtitle: Text(item['price'], style: const TextStyle(color: Colors.red)),
+                    trailing: const Icon(Icons.delete_outline, color: Colors.grey),
+                  ),
+                );
+              },
+            ),
+    );
+  }
+}
+
+// --- 4. ТАУАРДЫҢ ТОЛЫҚ БЕТІ (Product Detail) ---
 class ProductDetailScreen extends StatelessWidget {
   final Map<String, dynamic> product;
   const ProductDetailScreen({super.key, required this.product});
@@ -122,125 +168,126 @@ class ProductDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(product['name'])),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            Image.network(product['image'], height: 300),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(product['name'], style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 10),
-                  Text(product['price'], style: const TextStyle(fontSize: 22, color: Colors.red, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 20),
-                  const Text('Сипаттамасы:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 10),
-                  Text(product['desc'], style: const TextStyle(fontSize: 16, color: Colors.grey)),
-                  const SizedBox(height: 30),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Себетке қосылды!')),
-                        );
-                      },
-                      child: const Text('Себетке қосу', style: TextStyle(fontSize: 18, color: Colors.white)),
-                    ),
+        child: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                Image.network(product['image'], height: 300),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(product['name'], style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 10),
+                      Text(product['price'], style: const TextStyle(fontSize: 22, color: Colors.red, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 20),
+                      const Text('Сипаттамасы:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 10),
+                      Text(product['desc'], style: const TextStyle(fontSize: 16, color: Colors.grey)),
+                      const SizedBox(height: 30),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                          onPressed: () {
+                            cartItems.add(product); // Себетке қосу логикасы
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('${product['name']} себетке қосылды!')),
+                            );
+                          },
+                          child: const Text('Себетке қосу', style: TextStyle(fontSize: 18, color: Colors.white)),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
-// --- 4. ПРОФИЛЬ ЭКРАНЫ ---
+// --- 5. ПРОФИЛЬ ЭКРАНЫ
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Жеке кабинет'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Жеке кабинет'), centerTitle: true),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
             const SizedBox(height: 30),
-            // Қонақ аватары
+            // Аватар
             const Center(
               child: CircleAvatar(
                 radius: 50,
-                backgroundColor: Colors.grey,
-                child: Icon(Icons.person_outline, size: 60, color: Colors.white),
+                backgroundColor: Colors.orange,
+                child: Text(
+                  'СН', 
+                  style: TextStyle(fontSize: 40, color: Colors.white, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             const SizedBox(height: 20),
+            // ПАЙДАЛАНУШЫ АТЫ
             const Text(
-              'Қош келдіңіз!',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              'Сүндет Назар', 
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const Text(
-              'Тапсырыс беру үшін жүйеге кіріңіз',
+              'sundet.nazar@email.com', 
               style: TextStyle(color: Colors.grey),
             ),
             const SizedBox(height: 40),
 
-            // КІРУ БАТЫРМАСЫ
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                ),
-                onPressed: () {
-                  // Болашақта логин бетіне өту үшін
-                },
-                child: const Text('Кіру', style: TextStyle(color: Colors.white, fontSize: 18)),
+            // МӘЗІР БАТЫРМАЛАРЫ
+            Card(
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.history, color: Colors.orange),
+                    title: const Text('Тапсырыстар тарихы'),
+                    onTap: () {},
+                  ),
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: const Icon(Icons.favorite_border, color: Colors.orange),
+                    title: const Text('Таңдаулылар'),
+                    onTap: () {},
+                  ),
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: const Icon(Icons.settings, color: Colors.orange),
+                    title: const Text('Баптаулар'),
+                    onTap: () {},
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 15),
-
-            // ТІРКЕЛУ БАТЫРМАСЫ
+            
+            const Spacer(),
+            // ШЫҒУ БАТЫРМАСЫ
             SizedBox(
               width: double.infinity,
               height: 50,
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Colors.orange),
+                  side: const BorderSide(color: Colors.red),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
-                onPressed: () {
-                  // Болашақта тіркелу бетіне өту үшін
-                },
-                child: const Text('Тіркелу', style: TextStyle(color: Colors.orange, fontSize: 18)),
+                onPressed: () {},
+                child: const Text('Шығу', style: TextStyle(color: Colors.red, fontSize: 18)),
               ),
-            ),
-            
-            const Spacer(),
-            const Divider(),
-            ListTile(
-              leading: const Icon(Icons.help_outline),
-              title: const Text('Көмек орталығы'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Icon(Icons.info_outline),
-              title: const Text('Қосымша туралы'),
-              onTap: () {},
             ),
             const SizedBox(height: 20),
           ],
@@ -250,7 +297,6 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-// Тауарлар тізімі (өзгеріссіз)
 final List<Map<String, dynamic>> phoneProducts = [
   {
     'name': 'iPhone 15 Pro',
