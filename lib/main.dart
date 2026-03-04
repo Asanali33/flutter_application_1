@@ -10,12 +10,9 @@ class MyTeamApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-<<<<<<< HEAD
-      title: 'Біздің Ортақ Жоба',
-=======
-      title: 'Ортақ Жоба',
->>>>>>> 5aa00f9407097c31a6e79abb6d62a6a794d04fa9
-      theme: ThemeData(primarySwatch: Colors.blue),
+      debugShowCheckedModeBanner: false, // Оң жақтағы "Debug" жазуын алып тастайды
+      title: 'Sellpak Store', // Тек бір ғана title қалдырдық
+      theme: ThemeData(primarySwatch: Colors.orange), 
       home: const HomeScreen(),
     );
   }
@@ -27,9 +24,16 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Командалық Жобамыз')),
+      appBar: AppBar(
+        title: const Text('SellPak - Смартфондар'),
+        centerTitle: true,
+      ),
       body: const Center(
-        child: Text('Бүгін жоба басталды! '),
+        child: Text(
+          'Бүгін жоба басталды!\nЖақында бұл жерде телефондар болады.',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }
