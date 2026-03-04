@@ -394,8 +394,8 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            const Text('Сүндет Назар', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            const Text('sundet.nazar@email.com', style: TextStyle(color: Colors.grey)),
+            const Text('Сүндетбек Назар', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            const Text('sundetbek.nazar@email.com', style: TextStyle(color: Colors.grey)),
             const SizedBox(height: 40),
             Card(
               child: Column(
