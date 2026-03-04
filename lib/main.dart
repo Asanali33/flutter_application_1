@@ -4,19 +4,21 @@ void main() {
   runApp(const MyTeamApp());
 }
 
-// Себетке алдын ала қосылған тауарлар (isSelected қосылды)
+// Себетке алдын ала қосылған тауарлар
 List<Map<String, dynamic>> cartItems = [
   {
     'name': 'iPhone 15 Pro',
     'price': 649990,
     'image': 'https://ir.ozone.ru/s3/multimedia-1-o/7129349196.jpg',
     'isSelected': true,
+    'quantity': 1,
   },
   {
     'name': 'Samsung Galaxy S24 Ultra',
     'price': 599990,
     'image': 'https://ir.ozone.ru/s3/multimedia-f/w1200/6896605947.jpg',
     'isSelected': true,
+    'quantity': 1,
   },
 ];
 
@@ -53,8 +55,8 @@ class _MainNavigationState extends State<MainNavigation> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const FavoritesScreen(), // Таңдаулылар беті қосылды
-    const CartScreen(),      // Себет беті
+    const FavoritesScreen(),
+    const CartScreen(),
     const ProfileScreen(),
   ];
 
@@ -77,10 +79,15 @@ class _MainNavigationState extends State<MainNavigation> {
   }
 }
 
-// --- 2. БАСТЫ ЭКРАН (Home) ---
-class HomeScreen extends StatelessWidget {
+// --- 2. БАСТЫ ЭКРАН (Жүрекше логикасымен жаңартылды) ---
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,46 +106,55 @@ class HomeScreen extends StatelessWidget {
             itemCount: phoneProducts.length,
             itemBuilder: (context, index) {
               final phone = phoneProducts[index];
-              return GestureDetector(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProductDetailScreen(product: phone)),
-                ),
-                child: Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                  child: Column(
-                    children: [
-                      Expanded(child: Image.network(phone['image'], fit: BoxFit.contain)),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(phone['name'], style: const TextStyle(fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
-                            Text('${phone['price']} ₸', style: const TextStyle(color: Colors.red, fontSize: 16)),
-                            const SizedBox(height: 5),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: const Text('Сатып алу'),
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.favorite_border, color: Colors.red),
+              // Тауар таңдаулылар тізімінде бар ма екенін тексеру
+              bool isFavorite = favoriteItems.any((item) => item['name'] == phone['name']);
+
+              return Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                child: Column(
+                  children: [
+                    Expanded(child: Image.network(phone['image'], fit: BoxFit.contain)),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(phone['name'], style: const TextStyle(fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
+                          Text('${phone['price']} ₸', style: const TextStyle(color: Colors.red, fontSize: 16)),
+                          const SizedBox(height: 5),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
                                   onPressed: () {
-                                    favoriteItems.add(phone);
+                                    cartItems.add({...phone, 'isSelected': true, 'quantity': 1});
                                   },
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
+                                  child: const Text('Сатып алу'),
+                                ),
+                              ),
+                              IconButton(
+                                // Егер таңдалған болса - толы қызыл жүрекше, болмаса - бос жүрекше
+                                icon: Icon(
+                                  isFavorite ? Icons.favorite : Icons.favorite_border,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    if (isFavorite) {
+                                      favoriteItems.removeWhere((item) => item['name'] == phone['name']);
+                                    } else {
+                                      favoriteItems.add(phone);
+                                    }
+                                  });
+                                },
+                              )
+                            ],
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               );
             },
@@ -150,9 +166,14 @@ class HomeScreen extends StatelessWidget {
 }
 
 // --- 3. ТАҢДАУЛЫЛАР БЕТІ ---
-class FavoritesScreen extends StatelessWidget {
+class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
 
+  @override
+  State<FavoritesScreen> createState() => _FavoritesScreenState();
+}
+
+class _FavoritesScreenState extends State<FavoritesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -163,10 +184,21 @@ class FavoritesScreen extends StatelessWidget {
               itemCount: favoriteItems.length,
               itemBuilder: (context, index) {
                 final item = favoriteItems[index];
-                return ListTile(
-                  leading: Image.network(item['image'], width: 50),
-                  title: Text(item['name']),
-                  subtitle: Text('${item['price']} ₸'),
+                return Card(
+                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: ListTile(
+                    leading: Image.network(item['image'], width: 50),
+                    title: Text(item['name'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                    subtitle: Text('${item['price']} ₸', style: const TextStyle(color: Colors.red)),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.favorite, color: Colors.red),
+                      onPressed: () {
+                        setState(() {
+                          favoriteItems.removeAt(index);
+                        });
+                      },
+                    ),
+                  ),
                 );
               },
             ),
@@ -174,7 +206,7 @@ class FavoritesScreen extends StatelessWidget {
   }
 }
 
-// --- 4. СЕБЕТ БЕТІ (Checkbox және Сумма есептеу) ---
+// --- 4. СЕБЕТ БЕТІ ---
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
 
@@ -183,15 +215,45 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  // Тек таңдалған тауарлардың суммасын есептеу
   int get totalAmount {
     int sum = 0;
     for (var item in cartItems) {
       if (item['isSelected'] == true) {
-        sum += (item['price'] as int);
+        sum += (item['price'] as int) * (item['quantity'] as int);
       }
     }
     return sum;
+  }
+
+  void _showDeleteDialog(int index) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Өшіруді растау'),
+        content: const Text('Тауарды өшіресіз бе әлде таңдаулыларға сақтайсыз ба?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Болдырмау', style: TextStyle(color: Colors.grey)),
+          ),
+          TextButton(
+            onPressed: () {
+              favoriteItems.add(cartItems[index]);
+              setState(() => cartItems.removeAt(index));
+              Navigator.pop(context);
+            },
+            child: const Text('Таңдаулылар'),
+          ),
+          TextButton(
+            onPressed: () {
+              setState(() => cartItems.removeAt(index));
+              Navigator.pop(context);
+            },
+            child: const Text('Өшіру', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -209,88 +271,74 @@ class _CartScreenState extends State<CartScreen> {
                     itemBuilder: (context, index) {
                       final item = cartItems[index];
                       return Card(
-                        child: CheckboxListTile(
-                          controlAffinity: ListTileControlAffinity.leading,
-                          value: item['isSelected'],
-                          onChanged: (bool? value) {
-                            setState(() {
-                              item['isSelected'] = value;
-                            });
-                          },
-                          title: Text(item['name'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                          subtitle: Text('${item['price']} ₸', style: const TextStyle(color: Colors.red)),
-                          secondary: Image.network(item['image'], width: 50, fit: BoxFit.contain),
+                        child: Column(
+                          children: [
+                            CheckboxListTile(
+                              controlAffinity: ListTileControlAffinity.leading,
+                              value: item['isSelected'],
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  item['isSelected'] = value;
+                                });
+                              },
+                              title: Text(item['name'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                              subtitle: Text('${item['price']} ₸', style: const TextStyle(color: Colors.red)),
+                              secondary: Image.network(item['image'], width: 50, fit: BoxFit.contain),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 20, bottom: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.remove_circle_outline, color: Colors.orange),
+                                    onPressed: () {
+                                      if (item['quantity'] > 1) {
+                                        setState(() => item['quantity']--);
+                                      } else {
+                                        _showDeleteDialog(index);
+                                      }
+                                    },
+                                  ),
+                                  Text('${item['quantity']}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                                  IconButton(
+                                    icon: const Icon(Icons.add_circle_outline, color: Colors.orange),
+                                    onPressed: () {
+                                      setState(() => item['quantity']++);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
                       );
                     },
                   ),
                 ),
-                // Сумма шығатын бөлім
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Жалпы сумма:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                      Text('$totalAmount ₸', style: const TextStyle(fontSize: 20, color: Colors.red, fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-    );
-  }
-}
-
-// --- 5. ТАУАРДЫҢ ТОЛЫҚ БЕТІ ---
-class ProductDetailScreen extends StatelessWidget {
-  final Map<String, dynamic> product;
-  const ProductDetailScreen({super.key, required this.product});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(product['name'])),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Container(
-            constraints: const BoxConstraints(maxWidth: 600),
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                Image.network(product['image'], height: 300),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(product['name'], style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 10),
-                      Text('${product['price']} ₸', style: const TextStyle(fontSize: 22, color: Colors.red, fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 20),
-                      const Text('Сипаттамасы:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 10),
-                      Text(product['desc'], style: const TextStyle(fontSize: 16, color: Colors.grey)),
-                      const SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Жалпы сумма:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          Text('$totalAmount ₸', style: const TextStyle(fontSize: 20, color: Colors.red, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
                       SizedBox(
                         width: double.infinity,
                         height: 50,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-                          onPressed: () {
-                            cartItems.add({
-                              ...product,
-                              'isSelected': true,
-                            });
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('${product['name']} себетке қосылды!')),
-                            );
-                          },
-                          child: const Text('Себетке қосу', style: TextStyle(fontSize: 18, color: Colors.white)),
+                          onPressed: () {},
+                          child: const Text('Жалғастыру', style: TextStyle(fontSize: 18, color: Colors.white)),
                         ),
                       ),
                     ],
@@ -298,14 +346,11 @@ class ProductDetailScreen extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        ),
-      ),
     );
   }
 }
 
-// --- 6. ПРОФИЛЬ ЭКРАНЫ ---
+// --- 5. ПРОФИЛЬ ЭКРАНЫ ---
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -357,10 +402,7 @@ class ProfileScreen extends StatelessWidget {
               width: double.infinity,
               height: 50,
               child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Colors.red),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                ),
+                style: OutlinedButton.styleFrom(side: const BorderSide(color: Colors.red)),
                 onPressed: () {},
                 child: const Text('Шығу', style: TextStyle(color: Colors.red, fontSize: 18)),
               ),
@@ -373,42 +415,11 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-// ТАУАРЛАР ТІЗІМІ (Есептеу үшін бағалар int түрінде)
 final List<Map<String, dynamic>> phoneProducts = [
-  {
-    'name': 'iPhone 15 Pro',
-    'price': 649990,
-    'image': 'https://ir.ozone.ru/s3/multimedia-1-o/7129349196.jpg',
-    'desc': 'Titanium. So strong. So light. So Pro. Жаңа A17 Pro чипі және керемет камера.',
-  },
-  {
-    'name': 'Samsung Galaxy S24 Ultra',
-    'price': 599990,
-    'image': 'https://ir.ozone.ru/s3/multimedia-f/w1200/6896605947.jpg',
-    'desc': 'Galaxy AI is here. Жасанды интеллект көмегімен суреттерді өңдеңіз және аударма жасаңыз.',
-  },
-  {
-    'name': 'Xiaomi 14 Ultra',
-    'price': 499990,
-    'image': 'https://avatars.mds.yandex.net/get-mpic/15106342/2a00000196b4e64d596c1649841cc2ccd54b/orig',
-    'desc': 'Leica камерасымен жабдықталған фотофлагман. Кәсіби деңгейдегі суреттер.',
-  },
-  {
-    'name': 'HUAWEI Pura 70 Ultra',
-    'price': 549990,
-    'image': 'https://i.ebayimg.com/images/g/3T0AAOSw3otoS-O9/s-l500.jpg',
-    'desc': 'Ultra Speed Snapshot. Вдвижной объектив камерасы бар ең мықты смартфон.',
-  },
-  {
-    'name': 'Nothing Phone (2)',
-    'price': 320000,
-    'image': 'https://avatars.mds.yandex.net/get-mpic/1526692/2a0000018e743c24e02eaeff0eaff8ef9cf1/orig',
-    'desc': 'Unique Glyph Interface. Артындағы жарық диодтары арқылы хабарламаларды бақылаңыз.',
-  },
-  {
-    'name': 'Google Pixel 8 Pro',
-    'price': 420000,
-    'image': 'https://avatars.mds.yandex.net/get-mpic/8382397/2a0000019059a4c75a09fa81eb207bb1a146/orig',
-    'desc': 'Таза Android жүйесі және Google AI-дың ең үздік пост-өңдеу мүмкіндіктері.',
-  },
+  {'name': 'iPhone 15 Pro', 'price': 649990, 'image': 'https://ir.ozone.ru/s3/multimedia-1-o/7129349196.jpg'},
+  {'name': 'Samsung Galaxy S24 Ultra', 'price': 599990, 'image': 'https://ir.ozone.ru/s3/multimedia-f/w1200/6896605947.jpg'},
+  {'name': 'Xiaomi 14 Ultra', 'price': 499990, 'image': 'https://avatars.mds.yandex.net/get-mpic/15106342/2a00000196b4e64d596c1649841cc2ccd54b/orig'},
+  {'name': 'HUAWEI Pura 70 Ultra', 'price': 549990, 'image': 'https://i.ebayimg.com/images/g/3T0AAOSw3otoS-O9/s-l500.jpg'},
+  {'name': 'Nothing Phone (2)', 'price': 320000, 'image': 'https://avatars.mds.yandex.net/get-mpic/1526692/2a0000018e743c24e02eaeff0eaff8ef9cf1/orig'},
+  {'name': 'Google Pixel 8 Pro', 'price': 420000, 'image': 'https://avatars.mds.yandex.net/get-mpic/8382397/2a0000019059a4c75a09fa81eb207bb1a146/orig'},
 ];
