@@ -79,7 +79,7 @@ class _MainNavigationState extends State<MainNavigation> {
   }
 }
 
-// --- 2. БАСТЫ ЭКРАН (Жүрекше логикасымен жаңартылды) ---
+// --- 2. БАСТЫ ЭКРАН (Түзетілген нұсқасы) ---
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -99,14 +99,13 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(10),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.65,
+              childAspectRatio: 0.55, // Батырмалар сыю үшін аздап ұзарттық
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
             ),
             itemCount: phoneProducts.length,
             itemBuilder: (context, index) {
               final phone = phoneProducts[index];
-              // Тауар таңдаулылар тізімінде бар ма екенін тексеру
               bool isFavorite = favoriteItems.any((item) => item['name'] == phone['name']);
 
               return Card(
@@ -123,18 +122,42 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(phone['name'], style: const TextStyle(fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
                           Text('${phone['price']} ₸', style: const TextStyle(color: Colors.red, fontSize: 16)),
                           const SizedBox(height: 5),
-                          Row(
+                          
+                          // --- ЖАҢА БАТЫРМАЛАР ---
+                          Column(
                             children: [
-                              Expanded(
+                              SizedBox(
+                                width: double.infinity,
                                 child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
                                   onPressed: () {
-                                    cartItems.add({...phone, 'isSelected': true, 'quantity': 1});
+                                    setState(() {
+                                      // Себетке қосу логикасы
+                                      cartItems.add({...phone, 'isSelected': true, 'quantity': 1});
+                                    });
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text('Себетке қосылды!'), duration: Duration(seconds: 1)),
+                                    );
+                                  },
+                                  child: const Text('Себетке салу', style: TextStyle(color: Colors.white)),
+                                ),
+                              ),
+                              SizedBox(
+                                width: double.infinity,
+                                child: OutlinedButton(
+                                  onPressed: () {
+                                    // Сатып алу қызметі бос
                                   },
                                   child: const Text('Сатып алу'),
                                 ),
                               ),
+                            ],
+                          ),
+                          
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
                               IconButton(
-                                // Егер таңдалған болса - толы қызыл жүрекше, болмаса - бос жүрекше
                                 icon: Icon(
                                   isFavorite ? Icons.favorite : Icons.favorite_border,
                                   color: Colors.red,
