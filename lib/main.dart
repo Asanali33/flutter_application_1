@@ -1,28 +1,14 @@
 import 'package:flutter/material.dart';
+import 'profile_screen.dart'; 
 
 void main() {
   runApp(const MyTeamApp());
 }
 
-// Себетке алдын ала қосылған тауарлар
-List<Map<String, dynamic>> cartItems = [
-  {
-    'name': 'iPhone 15 Pro',
-    'price': 649990,
-    'image': 'https://ir.ozone.ru/s3/multimedia-1-o/7129349196.jpg',
-    'isSelected': true,
-    'quantity': 1,
-  },
-  {
-    'name': 'Samsung Galaxy S24 Ultra',
-    'price': 599990,
-    'image': 'https://ir.ozone.ru/s3/multimedia-f/w1200/6896605947.jpg',
-    'isSelected': true,
-    'quantity': 1,
-  },
-];
+// Себетке қосылған тауарлар (Global)
+List<Map<String, dynamic>> cartItems = [];
 
-// Таңдаулылар тізімі
+// Таңдаулылар тізімі (Global)
 List<Map<String, dynamic>> favoriteItems = [];
 
 class MyTeamApp extends StatelessWidget {
@@ -57,7 +43,7 @@ class _MainNavigationState extends State<MainNavigation> {
     const HomeScreen(),
     const FavoritesScreen(),
     const CartScreen(),
-    const ProfileScreen(),
+    const ProfileScreen(), 
   ];
 
   @override
@@ -79,7 +65,7 @@ class _MainNavigationState extends State<MainNavigation> {
   }
 }
 
-// --- 2. БАСТЫ ЭКРАН (Түзетілген нұсқасы) ---
+// --- 2. БАСТЫ ЭКРАН ---
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -99,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(10),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.55, // Батырмалар сыю үшін аздап ұзарттық
+              childAspectRatio: 0.50, // Батырмалар сыюы үшін аздап ұзарттық
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
             ),
@@ -119,60 +105,76 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(phone['name'], style: const TextStyle(fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
-                          Text('${phone['price']} ₸', style: const TextStyle(color: Colors.red, fontSize: 16)),
-                          const SizedBox(height: 5),
+                          Text(phone['name'], 
+                               style: const TextStyle(fontWeight: FontWeight.bold), 
+                               maxLines: 1, 
+                               overflow: TextOverflow.ellipsis),
+                          Text('${phone['price']} ₸', 
+                               style: const TextStyle(color: Colors.red, fontSize: 16)),
+                          const SizedBox(height: 10),
                           
-                          // --- ЖАҢА БАТЫРМАЛАР ---
-                          Column(
-                            children: [
-                              SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-                                  onPressed: () {
-                                    setState(() {
-                                      // Себетке қосу логикасы
-                                      cartItems.add({...phone, 'isSelected': true, 'quantity': 1});
-                                    });
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text('Себетке қосылды!'), duration: Duration(seconds: 1)),
-                                    );
-                                  },
-                                  child: const Text('Себетке салу', style: TextStyle(color: Colors.white)),
-                                ),
-                              ),
-                              SizedBox(
-                                width: double.infinity,
-                                child: OutlinedButton(
-                                  onPressed: () {
-                                    // Сатып алу қызметі бос
-                                  },
-                                  child: const Text('Сатып алу'),
-                                ),
-                              ),
-                            ],
+                          // СЕБЕТКЕ САЛУ БАТЫРМАСЫ
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                              onPressed: () {
+                                setState(() {
+                                  // Егер себетте болса, санын арттыру
+                                  final existingIndex = cartItems.indexWhere((item) => item['name'] == phone['name']);
+                                  if (existingIndex != -1) {
+                                    cartItems[existingIndex]['quantity']++;
+                                  } else {
+                                    cartItems.add({...phone, 'isSelected': true, 'quantity': 1});
+                                  }
+                                });
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Себетке қосылды!'), duration: Duration(seconds: 1)),
+                                );
+                              },
+                              child: const Text('Себетке салу', style: TextStyle(color: Colors.white)),
+                            ),
                           ),
                           
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              IconButton(
-                                icon: Icon(
-                                  isFavorite ? Icons.favorite : Icons.favorite_border,
-                                  color: Colors.red,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    if (isFavorite) {
-                                      favoriteItems.removeWhere((item) => item['name'] == phone['name']);
-                                    } else {
-                                      favoriteItems.add(phone);
-                                    }
-                                  });
-                                },
-                              )
-                            ],
+                          // САТЫП АЛУ БАТЫРМАСЫ
+                          SizedBox(
+                            width: double.infinity,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text('Сатып алу'),
+                                    content: Text('${phone['name']} сатып алғыңыз келе ме?'),
+                                    actions: [
+                                      TextButton(onPressed: () => Navigator.pop(context), child: const Text('Жоқ')),
+                                      TextButton(onPressed: () => Navigator.pop(context), child: const Text('Иә')),
+                                    ],
+                                  ),
+                                );
+                              },
+                              child: const Text('Сатып алу'),
+                            ),
+                          ),
+                          
+                          // ТАҢДАУЛЫЛАР (ЖҮРЕКШЕ)
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: IconButton(
+                              icon: Icon(
+                                isFavorite ? Icons.favorite : Icons.favorite_border,
+                                color: Colors.red,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  if (isFavorite) {
+                                    favoriteItems.removeWhere((item) => item['name'] == phone['name']);
+                                  } else {
+                                    favoriteItems.add(phone);
+                                  }
+                                });
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -341,7 +343,7 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 Container(
                   padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
                   ),
@@ -373,71 +375,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 }
 
-// --- 5. ПРОФИЛЬ ЭКРАНЫ ---
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Жеке кабинет'), centerTitle: true),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            const SizedBox(height: 30),
-            const Center(
-              child: CircleAvatar(
-                radius: 50,
-                backgroundColor: Colors.orange,
-                child: Text('СН', style: TextStyle(fontSize: 40, color: Colors.white, fontWeight: FontWeight.bold)),
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Text('Сүндетбек Назар', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            const Text('sundetbek.nazar@email.com', style: TextStyle(color: Colors.grey)),
-            const SizedBox(height: 40),
-            Card(
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: const Icon(Icons.history, color: Colors.orange),
-                    title: const Text('Тапсырыстар тарихы'),
-                    onTap: () {},
-                  ),
-                  const Divider(height: 1),
-                  ListTile(
-                    leading: const Icon(Icons.favorite_border, color: Colors.orange),
-                    title: const Text('Таңдаулылар'),
-                    onTap: () {},
-                  ),
-                  const Divider(height: 1),
-                  ListTile(
-                    leading: const Icon(Icons.settings, color: Colors.orange),
-                    title: const Text('Баптаулар'),
-                    onTap: () {},
-                  ),
-                ],
-              ),
-            ),
-            const Spacer(),
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(side: const BorderSide(color: Colors.red)),
-                onPressed: () {},
-                child: const Text('Шығу', style: TextStyle(color: Colors.red, fontSize: 18)),
-              ),
-            ),
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
+// ТАУАРЛАР ТІЗІМІ
 final List<Map<String, dynamic>> phoneProducts = [
   {'name': 'iPhone 15 Pro', 'price': 649990, 'image': 'https://ir.ozone.ru/s3/multimedia-1-o/7129349196.jpg'},
   {'name': 'Samsung Galaxy S24 Ultra', 'price': 450000, 'image': 'https://ir.ozone.ru/s3/multimedia-f/w1200/6896605947.jpg'},
