@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'data.dart';
+import 'checkout_screen.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -131,7 +132,21 @@ class _CartScreenState extends State<CartScreen> {
                         height: 50,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-                          onPressed: () {},
+                          onPressed: () {
+                            // Енді батырма басылғанда CheckoutScreen-ге өтеді
+                            if (totalAmount > 0) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CheckoutScreen(total: totalAmount),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Алдымен тауарды таңдаңыз!')),
+                              );
+                            }
+                          },
                           child: const Text('Жалғастыру', style: TextStyle(fontSize: 18, color: Colors.white)),
                         ),
                       ),
