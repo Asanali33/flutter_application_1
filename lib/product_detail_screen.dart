@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
 import 'data.dart';
 
-class ProductDetailScreen extends StatelessWidget {
+class ProductDetailScreen extends StatefulWidget {
   final Map<String, dynamic> product;
   const ProductDetailScreen({super.key, required this.product});
+
+  @override
+  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
+}
+
+class _ProductDetailScreenState extends State<ProductDetailScreen> {
+  // ТҮЗЕТІЛГЕН ЖЕРІ: Таңдалған жад нұсқасын сақтайтын айнымалы
+  late Map<String, dynamic> selectedVariant;
+
+  @override
+  void initState() {
+    super.initState();
+    // Бастапқыда бірінші нұсқаны таңдаймыз
+    selectedVariant = widget.product['variants'][0];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +26,6 @@ class ProductDetailScreen extends StatelessWidget {
       backgroundColor: Colors.grey[100],
       body: CustomScrollView(
         slivers: [
-          // Әдемі жоғарғы бөлім (Суретпен)
           SliverAppBar(
             expandedHeight: 350,
             pinned: true,
@@ -20,14 +34,12 @@ class ProductDetailScreen extends StatelessWidget {
                 color: Colors.white,
                 padding: const EdgeInsets.only(top: 50, bottom: 20),
                 child: Hero(
-                  tag: product['name'], // Анимация үшін
-                  child: Image.network(product['image'], fit: BoxFit.contain),
+                  tag: widget.product['name'],
+                  child: Image.network(widget.product['image'], fit: BoxFit.contain),
                 ),
               ),
             ),
           ),
-          
-          // Ақпараттық бөлім
           SliverToBoxAdapter(
             child: Container(
               decoration: const BoxDecoration(
@@ -46,25 +58,55 @@ class ProductDetailScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: Text(product['name'], 
+                          child: Text(widget.product['name'], 
                             style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, letterSpacing: -0.5)),
                         ),
                         const Icon(Icons.share_outlined, color: Colors.grey),
                       ],
                     ),
                     const SizedBox(height: 10),
-                    Text('${product['price']} ₸', 
+                    
+                    // ТҮЗЕТІЛГЕН ЖЕРІ: Баға таңдалған жадқа байланысты өзгереді
+                    Text('${selectedVariant['price']} ₸', 
                       style: const TextStyle(fontSize: 24, color: Colors.orange, fontWeight: FontWeight.w800)),
                     
+                    const SizedBox(height: 25),
+
+                    // ЖАҢАДАН ҚОСЫЛҒАН: Жад таңдау бөлімі
+                    const Text('Жад көлемін таңдаңыз:', 
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87)),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: (widget.product['variants'] as List).map((variant) {
+                        bool isSelected = selectedVariant['ram'] == variant['ram'];
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: ChoiceChip(
+                            label: Text(variant['ram']),
+                            selected: isSelected,
+                            selectedColor: Colors.orange,
+                            labelStyle: TextStyle(
+                              color: isSelected ? Colors.white : Colors.black,
+                              fontWeight: FontWeight.bold
+                            ),
+                            onSelected: (bool selected) {
+                              setState(() {
+                                selectedVariant = variant;
+                              });
+                            },
+                          ),
+                        );
+                      }).toList(),
+                    ),
+
                     const SizedBox(height: 25),
                     const Text('Сипаттамасы', 
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87)),
                     const SizedBox(height: 12),
-                    Text(product['description'] ?? "Сипаттамасы жақында қосылады...",
+                    Text(widget.product['description'] ?? "Сипаттамасы жақында қосылады...",
                       style: TextStyle(fontSize: 16, color: Colors.grey[700], height: 1.5)),
                     
                     const SizedBox(height: 30),
-                    // Қосымша стикерлер
                     Row(
                       children: [
                         _buildFeatureIcon(Icons.local_shipping_outlined, "Тегін жеткізу"),
@@ -72,7 +114,7 @@ class ProductDetailScreen extends StatelessWidget {
                         _buildFeatureIcon(Icons.verified_user_outlined, "1 жыл кепілдік"),
                       ],
                     ),
-                    const SizedBox(height: 100), // Батырма үшін орын
+                    const SizedBox(height: 100),
                   ],
                 ),
               ),
@@ -80,7 +122,6 @@ class ProductDetailScreen extends StatelessWidget {
           ),
         ],
       ),
-      // Себетке қосу батырмасы (Төменде қатып тұрады)
       bottomSheet: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         decoration: BoxDecoration(
@@ -95,10 +136,17 @@ class ProductDetailScreen extends StatelessWidget {
             elevation: 0,
           ),
           onPressed: () {
-            cartItems.add({...product, 'isSelected': true, 'quantity': 1});
+            // ТҮЗЕТІЛГЕН ЖЕРІ: Себетке таңдалған баға мен жадты қосу
+            cartItems.add({
+              ...widget.product, 
+              'name': '${widget.product['name']} (${selectedVariant['ram']})',
+              'price': selectedVariant['price'],
+              'isSelected': true, 
+              'quantity': 1
+            });
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('${product['name']} себетке қосылды!'),
+                content: Text('${widget.product['name']} (${selectedVariant['ram']}) себетке қосылды!'),
                 behavior: SnackBarBehavior.floating,
                 backgroundColor: Colors.orange,
               ),

@@ -70,7 +70,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     final phone = filteredProducts[index];
                     
-                    // Таңдаулы ма, жоқ па екенін тексеру
+                    // ТҮЗЕТІЛДІ: Бағаны variants ішінен алу (null-ды құрту үшін)
+                    final variants = phone['variants'] as List?;
+                    final int startingPrice = (variants != null && variants.isNotEmpty) 
+                        ? (variants[0]['price'] ?? 0) 
+                        : 0;
+
                     bool isFavorite = favoriteItems.any((item) => item['name'] == phone['name']);
 
                     return GestureDetector(
@@ -83,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Card(
                         elevation: 2,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                        child: Stack( // Жүрекшені суреттің үстіне қою үшін Stack қолдандым
+                        child: Stack( 
                           children: [
                             Column(
                               children: [
@@ -102,8 +107,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14), 
                                         maxLines: 1, overflow: TextOverflow.ellipsis),
                                       const SizedBox(height: 4),
-                                      Text('${phone['price']} ₸', 
+                                      
+                                      // ТҮЗЕТІЛДІ: Енді 'null' орнына нақты баға шығады
+                                      Text('$startingPrice ₸', 
                                         style: const TextStyle(color: Colors.orange, fontWeight: FontWeight.bold)),
+                                      
                                       const SizedBox(height: 10),
                                       SizedBox(
                                         width: double.infinity,
@@ -115,7 +123,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           onPressed: () {
                                             setState(() {
-                                              cartItems.add({...phone, 'isSelected': true, 'quantity': 1});
+                                              // Себетке қосқанда да бірінші нұсқаның бағасын тіркеп жіберемім
+                                              cartItems.add({
+                                                ...phone, 
+                                                'price': startingPrice, 
+                                                'isSelected': true, 
+                                                'quantity': 1
+                                              });
                                             });
                                             ScaffoldMessenger.of(context).showSnackBar(
                                               const SnackBar(content: Text('Себетке қосылды!'), duration: Duration(seconds: 1)),
@@ -129,7 +143,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ],
                             ),
-                            // МІНЕ, СЕНІҢ ЖҮРЕКШЕ (ТАНДАУЛЫЛАР) БАТЫРМАСЫ:
                             Positioned(
                               right: 5,
                               top: 5,
