@@ -1,0 +1,109 @@
+import 'package:flutter/material.dart';
+import 'home_screen.dart'; 
+import 'register_screen.dart';
+// ЕГЕР СЕНДЕ КЛАСС main.dart ІШІНДЕ БОЛСА, СОНЫ ИМПОРТТА:
+import 'main.dart'; 
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  void _login() {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+
+    if (email == "sundet.nazar" && password == "Sundet05") {
+      // ТҮЗЕТІЛДІ: Себет пен меню көрінуі үшін MainNavigation класына өтеміз
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MainNavigation()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Email немесе құпия сөз қате!'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(25.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.lock_person, size: 80, color: Colors.orange),
+              const SizedBox(height: 20),
+              const Text(
+                "SellPak Store-ға кіру",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 40),
+              
+              TextField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: "Логин",
+                  prefixIcon: const Icon(Icons.person),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                ),
+              ),
+              const SizedBox(height: 20),
+              
+              TextField(
+                controller: _passwordController,
+                obscureText: true, 
+                decoration: InputDecoration(
+                  labelText: "Құпия сөз",
+                  prefixIcon: const Icon(Icons.lock),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                ),
+              ),
+              const SizedBox(height: 30),
+              
+              SizedBox(
+                width: double.infinity,
+                height: 55,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  ),
+                  onPressed: _login,
+                  child: const Text(
+                    "Кіру",
+                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              
+              const SizedBox(height: 15),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                  );
+                },
+                child: const Text("Аккаунт жоқ па? Тіркелу", style: TextStyle(color: Colors.orange)),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

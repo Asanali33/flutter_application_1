@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login_screen.dart'; // ТҮЗЕТІЛДІ: LoginScreen-ге өту үшін импорт керек
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -52,7 +53,14 @@ class ProfileScreen extends StatelessWidget {
               height: 50,
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom(side: const BorderSide(color: Colors.red)),
-                onPressed: () {},
+                onPressed: () {
+                  // ТҮЗЕТІЛДІ: Шығу логикасы қосылды
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginScreen()),
+                    (route) => false,
+                  );
+                },
                 child: const Text('Шығу', style: TextStyle(color: Colors.red, fontSize: 18)),
               ),
             ),
