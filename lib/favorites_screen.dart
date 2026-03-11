@@ -19,12 +19,22 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               itemCount: favoriteItems.length,
               itemBuilder: (context, index) {
                 final item = favoriteItems[index];
+
+                // ТҮЗЕТІЛДІ: variants ішінен ең бірінші (бастапқы) бағаны алу
+                final variants = item['variants'] as List?;
+                final int startingPrice = (variants != null && variants.isNotEmpty) 
+                    ? (variants[0]['price'] ?? 0) 
+                    : 0;
+
                 return Card(
                   margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: ListTile(
                     leading: Image.network(item['image'], width: 50),
                     title: Text(item['name'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                    subtitle: Text('${item['price']} ₸', style: const TextStyle(color: Colors.red)),
+                    
+                    // ТҮЗЕТІЛДІ: Енді null орнына нақты баға (startingPrice) шығады
+                    subtitle: Text('$startingPrice ₸', style: const TextStyle(color: Colors.red)),
+                    
                     trailing: IconButton(
                       icon: const Icon(Icons.favorite, color: Colors.red),
                       onPressed: () {
