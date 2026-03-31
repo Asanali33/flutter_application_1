@@ -1,69 +1,270 @@
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-  // 1. Тауарлар тізімі (Жад нұсқалары мен реалистік бағалар қосылды)
-  final List<Map<String, dynamic>> phoneProducts = [
-    {
-      'name': 'iPhone 15 Pro', 
-      'image': 'https://ir.ozone.ru/s3/multimedia-1-o/7129349196.jpg',
-      'description': 'Титан корпусы, A17 Pro чипі және кәсіби деңгейдегі 48 Мп камера жүйесі.',
-      'variants': [
-        {'ram': '128GB', 'price': 580000},
-        {'ram': '256GB', 'price': 650000},
-        {'ram': '512GB', 'price': 780000},
-      ],
+// 1. Тауарлар тізімі (Барлығы 18 телефон - Кеңейтілген сипаттамамен)
+final List<Map<String, dynamic>> phoneProducts = [
+  // APPLE
+  {
+    'name': 'iPhone 15 Pro', 
+    'brand': 'Apple',
+    'rating': 4.9,
+    'image': 'https://ir.ozone.ru/s3/multimedia-1-o/7129349196.jpg',
+    'description': 'Титан корпусы, A17 Pro чипі және кәсіби деңгейдегі 48 Мп камера жүйесі.',
+    'specs': {
+      'screen': '6.1" OLED 120Hz',
+      'cpu': 'A17 Pro',
+      'battery': '3274 mAh',
+      'camera': '48+12+12 MP',
     },
-    {
-      'name': 'Samsung Galaxy S24 Ultra', 
-      'image': 'https://ir.ozone.ru/s3/multimedia-f/w1200/6896605947.jpg',
-      'description': 'Galaxy AI мүмкіндіктері, 200 Мп негізгі камера және кірістірілген S Pen.',
-      'variants': [
-        {'ram': '64GB', 'price': 420000},
-        {'ram': '128GB', 'price': 480000},
-        {'ram': '256GB', 'price': 540000},
-      ],
+    'variants': [{'ram': '128GB', 'price': 580000}, {'ram': '256GB', 'price': 650000}],
+  },
+  {
+    'name': 'iPhone 14 Pro', 
+    'brand': 'Apple',
+    'rating': 4.7,
+    'image': 'https://tse1.explicit.bing.net/th/id/OIP.m5ACWxos50nDdUJHa4cdwgHaJP?rs=1&pid=ImgDetMain&o=7&rm=3',
+    'description': 'Үлкен экран және ең ұзақ батарея қуаты.',
+    'specs': {
+      'screen': '6.1" OLED 120Hz',
+      'cpu': 'A16 Bionic',
+      'battery': '3200 mAh',
+      'camera': '48+12+12 MP',
     },
-    {
-      'name': 'Xiaomi 14 Ultra', 
-      'image': 'https://avatars.mds.yandex.net/get-mpic/15106342/2a00000196b4e64d596c1649841cc2ccd54b/orig',
-      'description': 'Leica оптикасымен жабдықталған кәсіби фото-флагман. 1-дюймдік сенсор.',
-      'variants': [
-        {'ram': '64GB', 'price': 380000},
-        {'ram': '128GB', 'price': 430000},
-        {'ram': '256GB', 'price': 499990},
-      ],
+    'variants': [{'ram': '128GB', 'price': 390000}],
+  },
+  {
+    'name': 'iPhone 13', 
+    'brand': 'Apple',
+    'rating': 4.6,
+    'image': 'https://tse1.explicit.bing.net/th/id/OIP.Yp_MIzSqRvZYdCbH8QPHvgHaJ2?rs=1&pid=ImgDetMain&o=7&rm=3',
+    'description': 'Күнделікті қолданысқа арналған сенімді әрі жылдам смартфон.',
+    'specs': {
+      'screen': '6.1" OLED',
+      'cpu': 'A15 Bionic',
+      'battery': '3240 mAh',
+      'camera': '12+12 MP',
     },
-    {
-      'name': 'HUAWEI Pura 70 Ultra', 
-      'image': 'https://i.ebayimg.com/images/g/3T0AAOSw3otoS-O9/s-l500.jpg',
-      'description': 'XMAGE камера жүйесі және жылжымалы объектив. Өнер мен технология үйлесімі.',
-      'variants': [
-        {'ram': '64GB', 'price': 390000},
-        {'ram': '128GB', 'price': 450000},
-        {'ram': '256GB', 'price': 549990},
-      ],
-    },
-    {
-      'name': 'Nothing Phone (2)', 
-      'image': 'https://avatars.mds.yandex.net/get-mpic/1526692/2a0000018e743c24e02eaeff0eaff8ef9cf1/orig',
-      'description': 'Ерекше Glyph интерфейсі, мөлдір корпус және таза Nothing OS.',
-      'variants': [
-        {'ram': '64GB', 'price': 220000},
-        {'ram': '128GB', 'price': 270000},
-        {'ram': '256GB', 'price': 320000},
-      ],
-    },
-    {
-      'name': 'Google Pixel 8 Pro', 
-      'image': 'https://avatars.mds.yandex.net/get-mpic/8382397/2a0000019059a4c75a09fa81eb207bb1a146/orig',
-      'description': 'Google-дің ең ақылды смартфоны. Жасанды интеллект көмегімен суреттерді өңдеу.',
-      'variants': [
-        {'ram': '64GB', 'price': 290000},
-        {'ram': '128GB', 'price': 350000},
-        {'ram': '256GB', 'price': 420000},
-      ],
-    },
-  ];
+    'variants': [{'ram': '128GB', 'price': 285000}],
+  },
 
-  // 2. Бұл айнымалыларды өзгертпедім
-  List<Map<String, dynamic>> cartItems = [];
-  List<Map<String, dynamic>> favoriteItems = [];
+  // SAMSUNG
+  {
+    'name': 'Samsung Galaxy S24 Ultra', 
+    'brand': 'Samsung',
+    'rating': 4.8,
+    'image': 'https://ir.ozone.ru/s3/multimedia-f/w1200/6896605947.jpg',
+    'description': 'Galaxy AI мүмкіндіктері, 200 Мп камера және S Pen.',
+    'specs': {
+      'screen': '6.8" Dynamic AMOLED 2X',
+      'cpu': 'Snapdragon 8 Gen 3',
+      'battery': '5000 mAh',
+      'camera': '200+50+12+10 MP',
+    },
+    'variants': [{'ram': '256GB', 'price': 540000}],
+  },
+  {
+    'name': 'Samsung Galaxy A54', 
+    'brand': 'Samsung',
+    'rating': 4.5,
+    'image': 'https://tse2.mm.bing.net/th/id/OIP.MeNXr1SeJDACRNYZ9s5RgAHaHa?w=1024&h=1024&rs=1&pid=ImgDetMain&o=7&rm=3',
+    'description': 'Жарқын экран және тамаша автономиялылық.',
+    'specs': {
+      'screen': '6.4" Super AMOLED 120Hz',
+      'cpu': 'Exynos 1380',
+      'battery': '5000 mAh',
+      'camera': '50+12+5 MP',
+    },
+    'variants': [{'ram': '128GB', 'price': 185000}],
+  },
+  {
+    'name': 'Samsung Galaxy Z Fold 5', 
+    'brand': 'Samsung',
+    'rating': 4.7,
+    'image': 'https://tse3.mm.bing.net/th/id/OIP.Mc86JWoMF3n5DPwRN_MrgAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3',
+    'description': 'Жиналмалы экран, мультитаскинг үшін таптырмас құрал.',
+    'specs': {
+      'screen': '7.6" AMOLED',
+      'cpu': 'Snapdragon 8 Gen 2',
+      'battery': '4400 mAh',
+      'camera': '50+12+10 MP',
+    },
+    'variants': [{'ram': '512GB', 'price': 720000}],
+  },
+
+  // XIAOMI
+  {
+    'name': 'Xiaomi 14 Ultra', 
+    'brand': 'Xiaomi',
+    'rating': 4.9,
+    'image': 'https://avatars.mds.yandex.net/get-mpic/15106342/2a00000196b4e64d596c1649841cc2ccd54b/orig',
+    'description': 'Leica оптикасымен жабдықталған кәсіби фото-флагман.',
+    'specs': {
+      'screen': '6.73" LTPO AMOLED',
+      'cpu': 'Snapdragon 8 Gen 3',
+      'battery': '5000 mAh',
+      'camera': '50+50+50+50 MP',
+    },
+    'variants': [{'ram': '256GB', 'price': 499990}],
+  },
+  {
+    'name': 'Redmi Note 13 Pro', 
+    'brand': 'Xiaomi',
+    'rating': 4.6,
+    'image': 'https://tse2.mm.bing.net/th/id/OIP.fy4KmYTB0bLL-uvmZe3UcwHaGu?rs=1&pid=ImgDetMain&o=7&rm=3',
+    'description': '200 Мп камера және 120 Вт жылдам қуаттау.',
+    'specs': {
+      'screen': '6.67" AMOLED 120Hz',
+      'cpu': 'Helio G99-Ultra',
+      'battery': '5000 mAh',
+      'camera': '200+8+2 MP',
+    },
+    'variants': [{'ram': '256GB', 'price': 145000}],
+  },
+  {
+    'name': 'Poco F6 Pro', 
+    'brand': 'Xiaomi',
+    'rating': 4.5,
+    'image': 'https://cdn1.ozone.ru/s3/multimedia-1-v/c600/6960403579.jpg',
+    'description': 'Ойындарға арналған қуатты процессор мен жарқын экран.',
+    'specs': {
+      'screen': '6.67" OLED 120Hz',
+      'cpu': 'Snapdragon 8 Gen 2',
+      'battery': '5000 mAh',
+      'camera': '50+8+2 MP',
+    },
+    'variants': [{'ram': '256GB', 'price': 230000}],
+  },
+
+  // OPPO / HUAWEI
+  {
+    'name': 'HUAWEI Pura 70 Ultra', 
+    'brand': 'HUAWEI', 
+    'rating': 4.7,
+    'image': 'https://i.ebayimg.com/images/g/3T0AAOSw3otoS-O9/s-l500.jpg',
+    'description': 'XMAGE камера жүйесі және жылжымалы объектив.',
+    'specs': {
+      'screen': '6.8" LTPO OLED',
+      'cpu': 'Kirin 9010',
+      'battery': '5200 mAh',
+      'camera': '50+40+50 MP',
+    },
+    'variants': [{'ram': '256GB', 'price': 549990}],
+  },
+  {
+    'name': 'OPPO Reno 11 Pro', 
+    'brand': 'OPPO',
+    'rating': 4.4,
+    'image': 'https://th.bing.com/th/id/OIP.YlZRlLLaHRW1cf7uEjuvDQHaHa?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3',
+    'description': 'Портреттік фотосуреттерге арналған стильді смартфон.',
+    'specs': {
+      'screen': '6.7" AMOLED',
+      'cpu': 'Dimensity 8200',
+      'battery': '4600 mAh',
+      'camera': '50+32+8 MP',
+    },
+    'variants': [{'ram': '256GB', 'price': 210000}],
+  },
+
+  // БАСҚАЛАР
+  {
+    'name': 'Google Pixel 8 Pro', 
+    'brand': 'Google', 
+    'rating': 4.8,
+    'image': 'https://avatars.mds.yandex.net/get-mpic/8382397/2a0000019059a4c75a09fa81eb207bb1a146/orig',
+    'description': 'Жасанды интеллект көмегімен суреттерді өңдеу.',
+    'specs': {
+      'screen': '6.7" LTPO OLED',
+      'cpu': 'Tensor G3',
+      'battery': '5050 mAh',
+      'camera': '50+48+48 MP',
+    },
+    'variants': [{'ram': '128GB', 'price': 350000}],
+  },
+  {
+    'name': 'Nothing Phone (2)', 
+    'brand': 'Nothing', 
+    'rating': 4.6,
+    'image': 'https://avatars.mds.yandex.net/get-mpic/1526692/2a0000018e743c24e02eaeff0eaff8ef9cf1/orig',
+    'description': 'Ерекше Glyph интерфейсі және мөлдір корпус.',
+    'specs': {
+      'screen': '6.7" LTPO OLED',
+      'cpu': 'Snapdragon 8+ Gen 1',
+      'battery': '4700 mAh',
+      'camera': '50+50 MP',
+    },
+    'variants': [{'ram': '256GB', 'price': 295000}],
+  },
+  {
+    'name': 'OnePlus 12', 
+    'brand': 'OnePlus', 
+    'rating': 4.8,
+    'image': 'https://s13emagst.akamaized.net/products/65876/65875215/images/res_44a3b51b26fcfd01622ef48d8b59d0f3.jpg?width=720&height=720&hash=EA722B2E37039DBA051228386E39DBAD',
+    'description': 'Жоғары жылдамдық және Hasselblad камерасы.',
+    'specs': {
+      'screen': '6.82" LTPO AMOLED',
+      'cpu': 'Snapdragon 8 Gen 3',
+      'battery': '5400 mAh',
+      'camera': '50+64+48 MP',
+    },
+    'variants': [{'ram': '256GB', 'price': 380000}],
+  },
+  {
+    'name': 'Realme GT 5', 
+    'brand': 'Realme', 
+    'rating': 4.5,
+    'image': 'https://ir.ozone.ru/s3/multimedia-h/c1000/6856689005.jpg',
+    'description': '240 Вт жылдам қуаттау рекорды.',
+    'specs': {
+      'screen': '6.74" OLED 144Hz',
+      'cpu': 'Snapdragon 8 Gen 2',
+      'battery': '5240 mAh',
+      'camera': '50+8+2 MP',
+    },
+    'variants': [{'ram': '512GB', 'price': 260000}],
+  },
+  {
+    'name': 'Asus ROG Phone 8', 
+    'brand': 'Asus', 
+    'rating': 4.9,
+    'image': 'https://tse3.mm.bing.net/th/id/OIP.bXqoO2si0m_jJvf50DT7ZAHaIx?rs=1&pid=ImgDetMain&o=7&rm=3',
+    'description': 'Нағыз геймерлерге арналған ең қуатты темір.',
+    'specs': {
+      'screen': '6.78" AMOLED 165Hz',
+      'cpu': 'Snapdragon 8 Gen 3',
+      'battery': '5500 mAh',
+      'camera': '50+32+13 MP',
+    },
+    'variants': [{'ram': '12 GB', 'price': 480000}],
+  },
+  {
+    'name': 'Honor Magic 6 Pro', 
+    'brand': 'Honor', 
+    'rating': 4.8,
+    'image': 'https://tse2.mm.bing.net/th/id/OIP.yX04gzY1AXSPjxMHDess4QHaHa?w=800&h=800&rs=1&pid=ImgDetMain&o=7&rm=3',
+    'description': 'Керемет перископтық камера және мықты экран.',
+    'specs': {
+      'screen': '6.8" LTPO OLED',
+      'cpu': 'Snapdragon 8 Gen 3',
+      'battery': '5600 mAh',
+      'camera': '50+180+50 MP',
+    },
+    'variants': [{'ram': '6 GB', 'price': 410000}],
+  },
+  {
+    'name': 'Sony Xperia 1 V', 
+    'brand': 'Sony', 
+    'rating': 4.6,
+    'image': 'https://tse4.mm.bing.net/th/id/OIP.KVHa_MHBtaUzGeYfYkuWWwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3',
+    'description': 'Кино түсірушілерге арналған 4K OLED экран.',
+    'specs': {
+      'screen': '6.5" 4K OLED',
+      'cpu': 'Snapdragon 8 Gen 2',
+      'battery': '5000 mAh',
+      'camera': '48+12+12 MP',
+    },
+    'variants': [{'ram': '4 GB', 'price': 450000}],
+  },
+];
+
+// Себет пен Таңдаулылар тізімі
+List<Map<String, dynamic>> cartItems = [];
+List<Map<String, dynamic>> favoriteItems = [];

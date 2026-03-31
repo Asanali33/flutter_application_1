@@ -3,6 +3,7 @@ import 'home_screen.dart';
 import 'favorites_screen.dart';
 import 'cart_screen.dart';
 import 'profile_screen.dart';
+import 'product_detail_screen.dart'; 
 import 'data.dart';
 
 void main() {

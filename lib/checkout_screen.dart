@@ -19,6 +19,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     'Алматы', 'Астана', 'Шымкент', 'Ақтөбе', 'Қарағанды', 
     'Тараз', 'Павлодар', 'Өскемен', 'Семей', 'Қостанай', 'Орал'
   ];
+  
+  get cartItems => null;
 
   @override
   Widget build(BuildContext context) {

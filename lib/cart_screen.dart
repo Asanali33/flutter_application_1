@@ -10,13 +10,11 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  // ТҮЗЕТІЛДІ: totalAmount есептеу кезіндегі null қатесі жойылды
   int get totalAmount {
     int sum = 0;
     for (var item in cartItems) {
       bool isSelected = item['isSelected'] ?? false;
       if (isSelected) {
-        // 'as int' орнына '??' операторы қолданылды
         int price = item['price'] ?? 0;
         int quantity = item['quantity'] ?? 1;
         sum += price * quantity;
@@ -75,17 +73,15 @@ class _CartScreenState extends State<CartScreen> {
                           children: [
                             CheckboxListTile(
                               controlAffinity: ListTileControlAffinity.leading,
-                              // ТҮЗЕТІЛДІ: value null болмауы керек
                               value: item['isSelected'] ?? false,
                               onChanged: (bool? value) {
                                 setState(() {
                                   item['isSelected'] = value ?? false;
                                 });
                               },
-                              title: Text(item['name'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                              // ТҮЗЕТІЛДІ: бағаны шығарудағы null safety
+                              title: Text(item['name'] ?? '', style: const TextStyle(fontWeight: FontWeight.bold)),
                               subtitle: Text('${item['price'] ?? 0} ₸', style: const TextStyle(color: Colors.red)),
-                              secondary: Image.network(item['image'], width: 50, fit: BoxFit.contain),
+                              secondary: Image.network(item['image'] ?? '', width: 50, fit: BoxFit.contain),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(right: 20, bottom: 10),
@@ -95,7 +91,6 @@ class _CartScreenState extends State<CartScreen> {
                                   IconButton(
                                     icon: const Icon(Icons.remove_circle_outline, color: Colors.orange),
                                     onPressed: () {
-                                      // ТҮЗЕТІЛДІ: санды азайту логикасы
                                       int currentQty = item['quantity'] ?? 1;
                                       if (currentQty > 1) {
                                         setState(() => item['quantity'] = currentQty - 1);
@@ -104,12 +99,10 @@ class _CartScreenState extends State<CartScreen> {
                                       }
                                     },
                                   ),
-                                  // ТҮЗЕТІЛДІ: санды шығару
                                   Text('${item['quantity'] ?? 1}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                                   IconButton(
                                     icon: const Icon(Icons.add_circle_outline, color: Colors.orange),
                                     onPressed: () {
-                                      // ТҮЗЕТІЛДІ: санды көбейту логикасы
                                       int currentQty = item['quantity'] ?? 1;
                                       setState(() => item['quantity'] = currentQty + 1);
                                     },
@@ -125,7 +118,7 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 Container(
                   padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
                   ),
@@ -151,10 +144,6 @@ class _CartScreenState extends State<CartScreen> {
                                 MaterialPageRoute(
                                   builder: (context) => CheckoutScreen(total: totalAmount),
                                 ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Алдымен тауарды таңдаңыз!')),
                               );
                             }
                           },

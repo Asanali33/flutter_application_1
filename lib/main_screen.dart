@@ -14,7 +14,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  // Беттер тізімі
   final List<Widget> _screens = [
     const HomeScreen(),
     const FavoritesScreen(),
@@ -28,7 +27,6 @@ class _MainScreenState extends State<MainScreen> {
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        // ТҮЗЕТІЛДІ: onChanged параметрі onTap болып өзгертілді
         onTap: (index) {
           setState(() {
             _selectedIndex = index;
@@ -36,6 +34,7 @@ class _MainScreenState extends State<MainScreen> {
         },
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.orange,
+        unselectedItemColor: Colors.grey,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Басты'),
           BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Таңдаулы'),

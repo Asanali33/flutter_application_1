@@ -10,18 +10,23 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
-  // ТҮЗЕТІЛГЕН ЖЕРІ: Таңдалған жад нұсқасын сақтайтын айнымалы
   late Map<String, dynamic> selectedVariant;
+  bool isFavorite = false;
 
   @override
   void initState() {
     super.initState();
-    // Бастапқыда бірінші нұсқаны таңдаймыз
+    // Алғашқы вариантты таңдау
     selectedVariant = widget.product['variants'][0];
+    // Тізімде бар ма, тексереміз
+    isFavorite = favoriteItems.any((item) => item['name'] == widget.product['name']);
   }
 
   @override
   Widget build(BuildContext context) {
+    // Деректерді қауіпсіз оқу
+    final specs = widget.product['specs'] as Map<String, dynamic>?;
+
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: CustomScrollView(
@@ -29,13 +34,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           SliverAppBar(
             expandedHeight: 350,
             pinned: true,
+            backgroundColor: Colors.white,
+            leading: const BackButton(color: Colors.black),
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
                 color: Colors.white,
                 padding: const EdgeInsets.only(top: 50, bottom: 20),
                 child: Hero(
                   tag: widget.product['name'],
-                  child: Image.network(widget.product['image'], fit: BoxFit.contain),
+                  child: Image.network(
+                    widget.product['image'], 
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image, size: 50),
+                  ),
                 ),
               ),
             ),
@@ -54,25 +65,59 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(widget.product['name'], 
+                        style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, letterSpacing: -0.5)),
+                    const SizedBox(height: 15),
+
+                    // БАҒА ЖӘНЕ ОНЫҢ ҚАСЫНДАҒЫ КІШКЕНТАЙ БАТЫРМАЛАР
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          child: Text(widget.product['name'], 
-                            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, letterSpacing: -0.5)),
+                        Text('${selectedVariant['price']} ₸', 
+                          style: const TextStyle(fontSize: 24, color: Colors.orange, fontWeight: FontWeight.w800)),
+                        const Spacer(),
+                        
+                        // 1. КІШКЕНТАЙ СЕБЕТ БАТЫРМАСЫ
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              cartItems.add({
+                                ...widget.product,
+                                'name': '${widget.product['name']} (${selectedVariant['ram']})',
+                                'price': selectedVariant['price'],
+                                'quantity': 1
+                              });
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Себетке қосылды!'), duration: Duration(seconds: 1)));
+                          },
+                          icon: const Icon(Icons.add_shopping_cart, color: Colors.orange),
+                          style: IconButton.styleFrom(backgroundColor: Colors.orange.withOpacity(0.1)),
                         ),
-                        const Icon(Icons.share_outlined, color: Colors.grey),
+
+                        const SizedBox(width: 8),
+
+                        // 2. ЖҮРЕКШЕ БАТЫРМАСЫ
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isFavorite = !isFavorite;
+                              if (isFavorite) {
+                                if (!favoriteItems.any((item) => item['name'] == widget.product['name'])) {
+                                  favoriteItems.add(widget.product);
+                                }
+                              } else {
+                                favoriteItems.removeWhere((item) => item['name'] == widget.product['name']);
+                              }
+                            });
+                          },
+                          icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
+                          color: isFavorite ? Colors.red : Colors.grey,
+                          style: IconButton.styleFrom(backgroundColor: Colors.grey.withOpacity(0.1)),
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    
-                    // ТҮЗЕТІЛГЕН ЖЕРІ: Баға таңдалған жадқа байланысты өзгереді
-                    Text('${selectedVariant['price']} ₸', 
-                      style: const TextStyle(fontSize: 24, color: Colors.orange, fontWeight: FontWeight.w800)),
                     
                     const SizedBox(height: 25),
-
-                    // ЖАҢАДАН ҚОСЫЛҒАН: Жад таңдау бөлімі
                     const Text('Жад көлемін таңдаңыз:', 
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87)),
                     const SizedBox(height: 12),
@@ -90,9 +135,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               fontWeight: FontWeight.bold
                             ),
                             onSelected: (bool selected) {
-                              setState(() {
-                                selectedVariant = variant;
-                              });
+                              setState(() => selectedVariant = variant);
                             },
                           ),
                         );
@@ -100,20 +143,37 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
 
                     const SizedBox(height: 25),
+                    if (specs != null) ...[
+                      const Text('Техникалық сипаттамалары:', 
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87)),
+                      const SizedBox(height: 12),
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[50],
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: Colors.grey[200]!),
+                        ),
+                        child: Column(
+                          children: [
+                            _buildSpecRow(Icons.screenshot, 'Экран:', specs['screen']),
+                            const Divider(),
+                            _buildSpecRow(Icons.memory, 'Процессор:', specs['cpu']),
+                            const Divider(),
+                            _buildSpecRow(Icons.battery_charging_full, 'Батарея:', specs['battery']),
+                            const Divider(),
+                            _buildSpecRow(Icons.camera_alt_outlined, 'Камера:', specs['camera']),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 25),
+                    ],
+
                     const Text('Сипаттамасы', 
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87)),
                     const SizedBox(height: 12),
                     Text(widget.product['description'] ?? "Сипаттамасы жақында қосылады...",
                       style: TextStyle(fontSize: 16, color: Colors.grey[700], height: 1.5)),
-                    
-                    const SizedBox(height: 30),
-                    Row(
-                      children: [
-                        _buildFeatureIcon(Icons.local_shipping_outlined, "Тегін жеткізу"),
-                        const SizedBox(width: 15),
-                        _buildFeatureIcon(Icons.verified_user_outlined, "1 жыл кепілдік"),
-                      ],
-                    ),
                     const SizedBox(height: 100),
                   ],
                 ),
@@ -136,17 +196,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             elevation: 0,
           ),
           onPressed: () {
-            // ТҮЗЕТІЛГЕН ЖЕРІ: Себетке таңдалған баға мен жадты қосу
-            cartItems.add({
-              ...widget.product, 
-              'name': '${widget.product['name']} (${selectedVariant['ram']})',
-              'price': selectedVariant['price'],
-              'isSelected': true, 
-              'quantity': 1
+            setState(() {
+              cartItems.add({
+                ...widget.product, 
+                'name': '${widget.product['name']} (${selectedVariant['ram']})',
+                'price': selectedVariant['price'],
+                'isSelected': true, 
+                'quantity': 1
+              });
             });
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('${widget.product['name']} (${selectedVariant['ram']}) себетке қосылды!'),
+                content: Text('${widget.product['name']} себетке қосылды!'),
                 behavior: SnackBarBehavior.floating,
                 backgroundColor: Colors.orange,
               ),
@@ -158,15 +219,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
-  Widget _buildFeatureIcon(IconData icon, String label) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(color: Colors.orange.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+  Widget _buildSpecRow(IconData icon, String title, dynamic value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
         children: [
-          Icon(icon, size: 20, color: Colors.orange),
+          Icon(icon, size: 20, color: Colors.grey[600]),
+          const SizedBox(width: 10),
+          Text(title, style: const TextStyle(fontWeight: FontWeight.w600, color: Colors.black54)),
           const SizedBox(width: 8),
-          Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.orange)),
+          Expanded(
+            child: Text(
+              value?.toString() ?? "Дерек жоқ", 
+              style: const TextStyle(fontWeight: FontWeight.bold)
+            )
+          ),
         ],
       ),
     );
