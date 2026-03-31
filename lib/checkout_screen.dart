@@ -192,7 +192,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Сәтті аяқталды!'),
+        title: const Text('Тапсырыс сәтті аяқталды!'),
         content: const Text('Тапсырысыңыз қабылданды.'),
         actions: [
           TextButton(
