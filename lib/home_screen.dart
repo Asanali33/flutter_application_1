@@ -17,14 +17,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // 1. Фильтрлеу логикасы (RAM тексеруі қосылды)
+    // 1. Фильтрлеу логикасы (RAM тексеруі түзетілді)
     List<Map<String, dynamic>> filteredProducts = phoneProducts.where((product) {
       final matchesSearch = product['name'].toString().toLowerCase().contains(searchQuery.toLowerCase());
       final matchesBrand = selectedBrand == "Барлығы" || product['brand'] == selectedBrand;
       
-      // RAM-ды variants ішінен іздеу
+      // RAM-ды variants ішінен іздеу (бос орын мәселесі шешілді)
       final matchesRam = selectedRam == "Барлығы" || 
-          (product['variants'] as List).any((v) => v['ram'] == selectedRam);
+          (product['variants'] as List).any((v) => 
+            v['ram'].toString().replaceAll(' ', '') == selectedRam.replaceAll(' ', ''));
 
       return matchesSearch && matchesBrand && matchesRam;
     }).toList();
@@ -109,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: ListView(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 12),
-              children: ["Барлығы (RAM)", "4 GB", "6 GB", "8 GB", "12 GB"].map((ram) {
+              children: ["Барлығы", "4 GB", "6 GB", "8 GB", "12 GB"].map((ram) {
                 final isSelected = selectedRam == ram;
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -187,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     padding: const EdgeInsets.all(10.0),
                                     child: Center(
                                       child: Image.network(
-                                        phone['image'], 
+                                        (phone['images'] as List)[0], // images тізімінен бірінші суретті алу
                                         fit: BoxFit.contain,
                                         errorBuilder: (context, error, stackTrace) => const Icon(Icons.smartphone, size: 50),
                                       ),

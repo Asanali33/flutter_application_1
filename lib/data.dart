@@ -9,7 +9,7 @@ final List<Map<String, dynamic>> phoneProducts = [
     'rating': 4.9,
     'images': [
       'https://ir.ozone.ru/s3/multimedia-1-o/7129349196.jpg',
-      'https://tse2.mm.bing.net/th/id/OIP.z0Xnj5A5-xc3ggX5WPO5BAHaFk?w=670&h=504&rs=1&pid=ImgDetMain&o=7&rm=3'
+      'https://openshop.ua/images/detailed/189/apple-iphone-15-pro-128gb-black-titanium-1.jpg'
     ],
     'description': 'Титан корпусы, A17 Pro чипі және кәсіби деңгейдегі 48 Мп камера жүйесі.',
     'specs': {'screen': '6.1" OLED 120Hz', 'cpu': 'A17 Pro', 'battery': '3274 mAh', 'camera': '48+12+12 MP'},
@@ -21,7 +21,7 @@ final List<Map<String, dynamic>> phoneProducts = [
     'rating': 4.7,
     'images': [
       'https://tse1.explicit.bing.net/th/id/OIP.m5ACWxos50nDdUJHa4cdwgHaJP?rs=1&pid=ImgDetMain&o=7&rm=3',
-      'https://s13emagst.akamaized.net/products/48592/48591223/images/res_0a49cd835e308621c4ce9f501418d2a5.jpg'
+      'https://openshop.ua/images/detailed/151/apple-iphone-14-pro-128gb-deep-purple-1.jpg'
     ],
     'description': 'Үлкен экран және ең ұзақ батарея қуаты.',
     'specs': {'screen': '6.1" OLED 120Hz', 'cpu': 'A16 Bionic', 'battery': '3200 mAh', 'camera': '48+12+12 MP'},
@@ -33,7 +33,7 @@ final List<Map<String, dynamic>> phoneProducts = [
     'rating': 4.6,
     'images': [
       'https://tse1.explicit.bing.net/th/id/OIP.Yp_MIzSqRvZYdCbH8QPHvgHaJ2?rs=1&pid=ImgDetMain&o=7&rm=3',
-      'https://www.techcrazy.co.nz/cdn/shop/files/Apple-iPhone-13-256GB-Midnight-MP-03569-2_cf2fe74a-0913-4cf9-bd06-f39205d34e90.jpg?v=1753230122'
+      'https://openshop.ua/images/detailed/121/apple-iphone-13-128gb-blue-1.jpg'
     ],
     'description': 'Күнделікті қолданысқа арналған сенімді әрі жылдам смартфон.',
     'specs': {'screen': '6.1" OLED', 'cpu': 'A15 Bionic', 'battery': '3240 mAh', 'camera': '12+12 MP'},
@@ -47,7 +47,7 @@ final List<Map<String, dynamic>> phoneProducts = [
     'rating': 4.8,
     'images': [
       'https://ir.ozone.ru/s3/multimedia-f/w1200/6896605947.jpg',
-      'https://www.androidheadlines.com/wp-content/uploads/2023/10/Samsung-Galaxy-S23-Ultra-S24-Ultra-design-comparison-1-jpg.webp'
+      'https://images.samsung.com/is/image/samsung/p6pim/kz_ru/2401/gallery/kz-ru-galaxy-s24-s928-sm-s928bztqskz-539305574'
     ],
     'description': 'Galaxy AI мүмкіндіктері, 200 Мп камера және S Pen.',
     'specs': {'screen': '6.8" Dynamic AMOLED 2X', 'cpu': 'Snapdragon 8 Gen 3', 'battery': '5000 mAh', 'camera': '200+50+12+10 MP'},
@@ -59,7 +59,7 @@ final List<Map<String, dynamic>> phoneProducts = [
     'rating': 4.5,
     'images': [
       'https://tse2.mm.bing.net/th/id/OIP.MeNXr1SeJDACRNYZ9s5RgAHaHa?w=1024&h=1024&rs=1&pid=ImgDetMain&o=7&rm=3',
-      'https://tse4.mm.bing.net/th/id/OIP.MBoWK8CQIWsax7StHbQgkQHaF6?rs=1&pid=ImgDetMain&o=7&rm=3'
+      'https://images.samsung.com/is/image/samsung/p6pim/kz_ru/sm-a546ezkdskz/gallery/kz-ru-galaxy-a54-5g-sm-a546-sm-a546ezkdskz-535787612'
     ],
     'description': 'Жарқын экран және тамаша автономиялылық.',
     'specs': {'screen': '6.4" Super AMOLED 120Hz', 'cpu': 'Exynos 1380', 'battery': '5000 mAh', 'camera': '50+12+5 MP'},
@@ -71,7 +71,7 @@ final List<Map<String, dynamic>> phoneProducts = [
     'rating': 4.7,
     'images': [
       'https://tse3.mm.bing.net/th/id/OIP.Mc86JWoMF3n5DPwRN_MrgAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3',
-      'https://tse1.mm.bing.net/th/id/OIP.dagfy0TkFfbNpLyRtrYZqwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3'
+      'https://images.samsung.com/is/image/samsung/p6pim/kz_ru/2307/gallery/kz-ru-galaxy-z-fold5-f946-sm-f946bzksskz-537449234'
     ],
     'description': 'Жиналмалы экран, мультитаскинг үшін таптырмас құрал.',
     'specs': {'screen': '7.6" AMOLED', 'cpu': 'Snapdragon 8 Gen 2', 'battery': '4400 mAh', 'camera': '50+12+10 MP'},
@@ -85,7 +85,7 @@ final List<Map<String, dynamic>> phoneProducts = [
     'rating': 4.9,
     'images': [
       'https://avatars.mds.yandex.net/get-mpic/15106342/2a00000196b4e64d596c1649841cc2ccd54b/orig',
-      'https://tse2.mm.bing.net/th/id/OIP.93OUtEyVs1y6rZxjc5ox0QHaHa?w=650&h=650&rs=1&pid=ImgDetMain&o=7&rm=3'
+      'https://miot.kz/uploads/products/1269/963884.jpg'
     ],
     'description': 'Leica оптикасымен жабдықталған кәсіби фото-флагман.',
     'specs': {'screen': '6.73" LTPO AMOLED', 'cpu': 'Snapdragon 8 Gen 3', 'battery': '5000 mAh', 'camera': '50+50+50+50 MP'},

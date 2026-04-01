@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'data.dart'; // Осы файлда favoriteItems тізімі болуы керек
+import 'data.dart';
 
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
@@ -9,9 +9,6 @@ class FavoritesScreen extends StatefulWidget {
 }
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
-  // ҚАТЕ ЖӨНДЕЛДІ: Мына жерде жаңа тізім жасаудың керегі жоқ.
-  // Біз data.dart ішіндегі дайын favoriteItems тізімін қолданамыз.
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +19,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         elevation: 0,
         centerTitle: true,
       ),
-      // favoriteItems - бұл енді data.dart-тан келетін тізім
       body: favoriteItems.isEmpty
           ? const Center(
               child: Column(
@@ -58,14 +54,20 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                         color: Colors.grey[100],
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Image.network(
-                        item['image'], 
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) => const Icon(Icons.smartphone),
+                      child: Hero(
+                        tag: item['name'],
+                        child: Image.network(
+                          // ТҮЗЕТІЛДІ: item['image'] орнына images тізімінің бірінші элементі
+                          (item['images'] != null && (item['images'] as List).isNotEmpty)
+                              ? item['images'][0]
+                              : "", 
+                          fit: BoxFit.contain,
+                          errorBuilder: (context, error, stackTrace) => const Icon(Icons.smartphone),
+                        ),
                       ),
                     ),
                     title: Text(
-                      item['name'], 
+                      item['name'] ?? "Атауы жоқ", 
                       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)
                     ),
                     subtitle: Text(
@@ -75,7 +77,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     trailing: IconButton(
                       icon: const Icon(Icons.favorite, color: Colors.red),
                       onPressed: () {
-                        // Тізімнен өшіру және экранды жаңарту
                         setState(() {
                           favoriteItems.removeAt(index);
                         });

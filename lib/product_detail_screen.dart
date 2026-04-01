@@ -43,7 +43,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 child: Hero(
                   tag: widget.product['name'],
                   child: Image.network(
-                    widget.product['image'], 
+                    // ТҮЗЕТІЛГЕН ЖЕР: 'image' емес, 'images' тізімінің 0-ші элементі
+                    (widget.product['images'] as List)[0], 
                     fit: BoxFit.contain,
                     errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image, size: 50),
                   ),
