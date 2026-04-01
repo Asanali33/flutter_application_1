@@ -35,7 +35,7 @@ class ProfileScreen extends StatelessWidget {
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.favorite_border, color: Colors.orange),
-                    title: const Text('Таңдаулылар'),
+                    title: const Text('Адрес'),
                     onTap: () {},
                   ),
                   const Divider(height: 1),
