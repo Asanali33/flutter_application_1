@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart'; // ТҮЗЕТІЛДІ: LoginScreen-ге өту үшін импорт керек
+import 'login_screen.dart'; 
+import 'orders_screen.dart'; // ҚОСЫЛДЫ
+import 'address_screen.dart'; // ҚОСЫЛДЫ
+import 'settings_screen.dart'; // ҚОСЫЛДЫ
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -30,19 +33,38 @@ class ProfileScreen extends StatelessWidget {
                   ListTile(
                     leading: const Icon(Icons.history, color: Colors.orange),
                     title: const Text('Тапсырыстар тарихы'),
-                    onTap: () {},
+                    onTap: () {
+                      // ТҮЗЕТІЛДІ: Тапсырыстар бетіне өту
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const OrdersScreen()),
+                      );
+                    },
                   ),
                   const Divider(height: 1),
                   ListTile(
-                    leading: const Icon(Icons.favorite_border, color: Colors.orange),
+                    // ТҮЗЕТІЛДІ: Белгіше Icons.home-ға ауыстырылды
+                    leading: const Icon(Icons.home, color: Colors.orange), 
                     title: const Text('Адрес'),
-                    onTap: () {},
+                    onTap: () {
+                      // ТҮЗЕТІЛДІ: Адрес бетіне өту
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AddressScreen()),
+                      );
+                    },
                   ),
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.settings, color: Colors.orange),
                     title: const Text('Баптаулар'),
-                    onTap: () {},
+                    onTap: () {
+                      // ТҮЗЕТІЛДІ: Баптаулар бетіне өту
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -54,7 +76,6 @@ class ProfileScreen extends StatelessWidget {
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom(side: const BorderSide(color: Colors.red)),
                 onPressed: () {
-                  // ТҮЗЕТІЛДІ: Шығу логикасы қосылды
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(builder: (context) => const LoginScreen()),

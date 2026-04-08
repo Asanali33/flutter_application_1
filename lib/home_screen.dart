@@ -356,7 +356,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           const Icon(Icons.battery_std, size: 12, color: Colors.green),
                           const SizedBox(width: 4),
-                          Text("${phone['battery'] ?? '5000 mAh'}", style: const TextStyle(fontSize: 10, color: Colors.grey)),
+                          Text("${phone['battery'] ?? '5036 mAh'}", style: const TextStyle(fontSize: 10, color: Colors.grey)),
                         ],
                       ),
                       const SizedBox(height: 6),
