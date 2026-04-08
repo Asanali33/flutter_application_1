@@ -16,6 +16,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   void initState() {
     super.initState();
+<<<<<<< HEAD
     // Алғашқы вариантты қауіпсіз таңдау
     final variants = widget.product['variants'] as List?;
     if (variants != null && variants.isNotEmpty) {
@@ -24,6 +25,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       selectedVariant = {'ram': 'Стандарт', 'price': 0};
     }
     
+=======
+    // Алғашқы вариантты таңдау
+    selectedVariant = widget.product['variants'][0];
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
     // Тізімде бар ма, тексереміз
     isFavorite = favoriteItems.any((item) => item['name'] == widget.product['name']);
   }
@@ -32,7 +37,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   Widget build(BuildContext context) {
     // Деректерді қауіпсіз оқу
     final specs = widget.product['specs'] as Map<String, dynamic>?;
+<<<<<<< HEAD
     final images = widget.product['images'] as List?;
+=======
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -48,10 +56,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 color: Colors.white,
                 padding: const EdgeInsets.only(top: 50, bottom: 20),
                 child: Hero(
+<<<<<<< HEAD
                   tag: widget.product['name'] ?? 'product_image',
                   child: Image.network(
                     // ТҮЗЕТІЛДІ: images тізімінен қауіпсіз алу
                     (images != null && images.isNotEmpty) ? images[0] : "", 
+=======
+                  tag: widget.product['name'],
+                  child: Image.network(
+                    // ТҮЗЕТІЛГЕН ЖЕР: 'image' емес, 'images' тізімінің 0-ші элементі
+                    (widget.product['images'] as List)[0], 
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
                     fit: BoxFit.contain,
                     errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image, size: 50),
                   ),
@@ -73,16 +88,28 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+<<<<<<< HEAD
                     Text(widget.product['name'] ?? "Атауы жоқ", 
                         style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, letterSpacing: -0.5)),
                     const SizedBox(height: 15),
 
+=======
+                    Text(widget.product['name'], 
+                        style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, letterSpacing: -0.5)),
+                    const SizedBox(height: 15),
+
+                    // БАҒА ЖӘНЕ ОНЫҢ ҚАСЫНДАҒЫ КІШКЕНТАЙ БАТЫРМАЛАР
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
                     Row(
                       children: [
                         Text('${selectedVariant['price']} ₸', 
                           style: const TextStyle(fontSize: 24, color: Colors.orange, fontWeight: FontWeight.w800)),
                         const Spacer(),
                         
+<<<<<<< HEAD
+=======
+                        // 1. КІШКЕНТАЙ СЕБЕТ БАТЫРМАСЫ
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
                         IconButton(
                           onPressed: () {
                             setState(() {
@@ -90,8 +117,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 ...widget.product,
                                 'name': '${widget.product['name']} (${selectedVariant['ram']})',
                                 'price': selectedVariant['price'],
+<<<<<<< HEAD
                                 'quantity': 1,
                                 'isSelected': true,
+=======
+                                'quantity': 1
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
                               });
                             });
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -103,6 +134,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
                         const SizedBox(width: 8),
 
+<<<<<<< HEAD
+=======
+                        // 2. ЖҮРЕКШЕ БАТЫРМАСЫ
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
                         IconButton(
                           onPressed: () {
                             setState(() {
@@ -128,12 +163,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87)),
                     const SizedBox(height: 12),
                     Row(
+<<<<<<< HEAD
                       children: (widget.product['variants'] as List? ?? []).map((variant) {
+=======
+                      children: (widget.product['variants'] as List).map((variant) {
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
                         bool isSelected = selectedVariant['ram'] == variant['ram'];
                         return Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: ChoiceChip(
+<<<<<<< HEAD
                             label: Text(variant['ram'] ?? ""),
+=======
+                            label: Text(variant['ram']),
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
                             selected: isSelected,
                             selectedColor: Colors.orange,
                             labelStyle: TextStyle(

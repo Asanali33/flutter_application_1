@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'data.dart';
+<<<<<<< HEAD
 import 'product_detail_screen.dart'; // ИМПОРТ ҚОСЫЛДЫ
+=======
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
 
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
@@ -36,6 +39,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               itemBuilder: (context, index) {
                 final item = favoriteItems[index];
 
+<<<<<<< HEAD
+=======
+                // Варианттар мен бағаны қауіпсіз алу
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
                 final variants = item['variants'] as List?;
                 final String startingPrice = (variants != null && variants.isNotEmpty) 
                     ? variants[0]['price'].toString() 
@@ -46,6 +53,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                   margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                   child: ListTile(
+<<<<<<< HEAD
                     // ОНТАП ҚОСЫЛДЫ: Тауарды басқанда өту
                     onTap: () {
                       Navigator.push(
@@ -55,6 +63,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                         ),
                       );
                     },
+=======
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
                     contentPadding: const EdgeInsets.all(10),
                     leading: Container(
                       width: 60,
@@ -66,6 +76,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       child: Hero(
                         tag: item['name'],
                         child: Image.network(
+<<<<<<< HEAD
+=======
+                          // ТҮЗЕТІЛДІ: item['image'] орнына images тізімінің бірінші элементі
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
                           (item['images'] != null && (item['images'] as List).isNotEmpty)
                               ? item['images'][0]
                               : "", 

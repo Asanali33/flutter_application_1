@@ -81,6 +81,7 @@ class _CartScreenState extends State<CartScreen> {
                               },
                               title: Text(item['name'] ?? '', style: const TextStyle(fontWeight: FontWeight.bold)),
                               subtitle: Text('${item['price'] ?? 0} ₸', style: const TextStyle(color: Colors.red)),
+<<<<<<< HEAD
                               secondary: Image.network(
                                 (item['images'] != null && item['images'].isNotEmpty)
                                     ? item['images'][0]
@@ -89,6 +90,9 @@ class _CartScreenState extends State<CartScreen> {
                                 fit: BoxFit.contain,
                                 errorBuilder: (context, error, stackTrace) => const Icon(Icons.image_not_supported),
                               ),
+=======
+                              secondary: Image.network(item['image'] ?? '', width: 50, fit: BoxFit.contain),
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
                             ),
                             Padding(
                               padding: const EdgeInsets.only(right: 20, bottom: 10),

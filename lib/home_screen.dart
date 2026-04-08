@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'data.dart'; // phoneProducts және favoriteItems осы жерден алынады
+=======
+import 'data.dart'; // phoneProducts осы жерден алынады
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
 import 'product_detail_screen.dart'; 
 
 class HomeScreen extends StatefulWidget {
@@ -27,12 +31,20 @@ class _HomeScreenState extends State<HomeScreen> {
   double minPrice = 0;
   double maxPrice = 2000000; 
 
+<<<<<<< HEAD
   // Мәтіннен санды бөліп алу (мысалы: "5000 mAh" -> 5000)
+=======
+  // Мәтіннен санды бөліп алу функциясы (мысалы: "5000 mAh" -> 5000)
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
   int _parseNumber(String value) {
     return int.tryParse(value.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0;
   }
 
+<<<<<<< HEAD
   // Фильтр терезесі (Bottom Sheet)
+=======
+  // Фильтр терезесін шығару (Bottom Sheet)
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
   void _showFilterBottomSheet() {
     _minPriceController.text = minPrice > 0 ? minPrice.toInt().toString() : '';
     _maxPriceController.text = maxPrice < 2000000 ? maxPrice.toInt().toString() : '';
@@ -116,6 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(height: 25),
                         _buildSectionTitle('Брендтер'),
                         _buildChoiceChips(["Барлығы", "Apple", "Samsung", "Xiaomi", "OPPO"], tempBrand, (val) => setModalState(() => tempBrand = val)),
+<<<<<<< HEAD
                         const SizedBox(height: 25),
                         _buildSectionTitle('Батарея сыйымдылығы'),
                         _buildChoiceChips(["Барлығы", "4500 mAh", "5000 mAh", "6000 mAh"], tempBattery, (val) => setModalState(() => tempBattery = val), color: Colors.green),
@@ -125,6 +138,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(height: 25),
                         _buildSectionTitle('Жедел жад (RAM)'),
                         _buildChoiceChips(["Барлығы", "4 GB", "6 GB", "8 GB", "12 GB"], tempRam, (val) => setModalState(() => tempRam = val), color: Colors.deepPurple),
+=======
+                        
+                        const SizedBox(height: 25),
+                        _buildSectionTitle('Батарея сыйымдылығы'),
+                        _buildChoiceChips(["Барлығы", "4500 mAh", "5000 mAh", "6000 mAh"], tempBattery, (val) => setModalState(() => tempBattery = val), color: Colors.green),
+
+                        const SizedBox(height: 25),
+                        _buildSectionTitle('Камера (MP)'),
+                        _buildChoiceChips(["Барлығы", "12 MP", "48 MP", "50 MP", "108 MP"], tempCamera, (val) => setModalState(() => tempCamera = val), color: Colors.blue),
+
+                        const SizedBox(height: 25),
+                        _buildSectionTitle('Жедел жад (RAM)'),
+                        _buildChoiceChips(["Барлығы", "4 GB", "6 GB", "8 GB", "12 GB"], tempRam, (val) => setModalState(() => tempRam = val), color: Colors.deepPurple),
+                        
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
                         const SizedBox(height: 25),
                         _buildSectionTitle('Память'),
                         _buildMultiChoiceChips(["128 GB", "256 GB", "512 GB"], tempMemories, (val, selected) {
@@ -193,12 +221,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     // 1. Фильтрлеу логикасы
+=======
+<<<<<<< HEAD
+    // Өнімдерді сүзгілеу логикасы
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
     List<Map<String, dynamic>> filteredProducts = phoneProducts.where((product) {
       final q = searchQuery.toLowerCase();
       final matchesSearch = product['name'].toString().toLowerCase().contains(q) ||
                             (product['battery'] ?? '').toString().toLowerCase().contains(q) ||
                             (product['camera'] ?? '').toString().toLowerCase().contains(q);
+<<<<<<< HEAD
 
       final matchesBrand = selectedBrand == "Барлығы" || product['brand'] == selectedBrand;
 
@@ -219,12 +253,53 @@ class _HomeScreenState extends State<HomeScreen> {
       
       final matchesRam = selectedRam == "Барлығы" || variants.any((v) => v['ram'].toString().replaceAll(' ', '') == selectedRam.replaceAll(' ', ''));
       final matchesMemory = selectedMemories.isEmpty || variants.any((v) => selectedMemories.contains(v['memory']));
+=======
+=======
+    // 1. Фильтрлеу логикасы (RAM тексеруі түзетілді)
+    List<Map<String, dynamic>> filteredProducts = phoneProducts.where((product) {
+      final matchesSearch = product['name'].toString().toLowerCase().contains(searchQuery.toLowerCase());
+      final matchesBrand = selectedBrand == "Барлығы" || product['brand'] == selectedBrand;
+      
+      // RAM-ды variants ішінен іздеу (бос орын мәселесі шешілді)
+      final matchesRam = selectedRam == "Барлығы" || 
+          (product['variants'] as List).any((v) => 
+            v['ram'].toString().replaceAll(' ', '') == selectedRam.replaceAll(' ', ''));
+>>>>>>> 18531ef9f022f2350cc8c87f2dba6b9720bf76f6
+
+      final matchesBrand = selectedBrand == "Барлығы" || product['brand'] == selectedBrand;
+
+      // Батарея: Таңдалған мәнге ДЕЙІНГІЛЕР (<=)
+      bool matchesBattery = true;
+      if (selectedBattery != "Барлығы") {
+        int productBattery = _parseNumber(product['battery'] ?? '0');
+        int limitBattery = _parseNumber(selectedBattery);
+        matchesBattery = productBattery <= limitBattery;
+      }
+
+      // Камера: Таңдалған мәнге ДЕЙІНГІЛЕР (<=)
+      bool matchesCamera = true;
+      if (selectedCamera != "Барлығы") {
+        int productCamera = _parseNumber(product['camera'] ?? '0');
+        int limitCamera = _parseNumber(selectedCamera);
+        matchesCamera = productCamera <= limitCamera;
+      }
+      
+      final double productPrice = (product['variants'] as List).isNotEmpty ? (product['variants'][0]['price'] ?? 0).toDouble() : 0.0;
+      final matchesPrice = productPrice >= minPrice && productPrice <= maxPrice;
+      
+      final matchesRam = selectedRam == "Барлығы" || (product['variants'] as List).any((v) => v['ram'] == selectedRam);
+      final matchesMemory = selectedMemories.isEmpty || (product['variants'] as List).any((v) => selectedMemories.contains(v['memory']));
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
       final matchesDiscount = !onlyWithDiscount || product['hasDiscount'] == true;
       
       return matchesSearch && matchesBrand && matchesBattery && matchesCamera && matchesPrice && matchesRam && matchesMemory && matchesDiscount;
     }).toList();
 
+<<<<<<< HEAD
     // 2. Сұрыптау
+=======
+    // Сұрыптау логикасы
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
     if (sortBy == 'Арзан') {
       filteredProducts.sort((a, b) => a['variants'][0]['price'].compareTo(b['variants'][0]['price']));
     } else if (sortBy == 'Қымбат') {
@@ -243,8 +318,88 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
+<<<<<<< HEAD
           Padding(
             padding: const EdgeInsets.all(16.0),
+=======
+          // Іздеу жолағы
+          Padding(
+<<<<<<< HEAD
+            padding: const EdgeInsets.all(16.0),
+=======
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 5))
+                ],
+              ),
+              child: TextField(
+                onChanged: (value) => setState(() => searchQuery = value),
+                decoration: const InputDecoration(
+                  hintText: "Смартфон іздеу...",
+                  prefixIcon: Icon(Icons.search, color: Colors.orange),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(vertical: 15),
+                ),
+              ),
+            ),
+          ),
+
+          // Бренд фильтрі
+          SizedBox(
+            height: 50,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              children: ["Барлығы", "Apple", "Samsung", "Xiaomi", "OPPO"].map((brand) {
+                final isSelected = selectedBrand == brand;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: ChoiceChip(
+                    label: Text(brand),
+                    selected: isSelected,
+                    onSelected: (selected) => setState(() => selectedBrand = brand),
+                    selectedColor: Colors.orange,
+                    labelStyle: TextStyle(color: isSelected ? Colors.white : Colors.black),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+
+          // --- ЖАҢА: RAM ФИЛЬТРІ ---
+          SizedBox(
+            height: 50,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              children: ["Барлығы", "4 GB", "6 GB", "8 GB", "12 GB"].map((ram) {
+                final isSelected = selectedRam == ram;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: ChoiceChip(
+                    label: Text(ram),
+                    selected: isSelected,
+                    onSelected: (selected) => setState(() => selectedRam = ram),
+                    selectedColor: Colors.blue,
+                    labelStyle: TextStyle(color: isSelected ? Colors.white : Colors.black),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+          // ------------------------
+
+          // Сұрыптау
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+>>>>>>> 18531ef9f022f2350cc8c87f2dba6b9720bf76f6
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
             child: Row(
               children: [
                 Expanded(
@@ -277,6 +432,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
+<<<<<<< HEAD
+=======
+          // Нәтижелер саны және Сұрыптау
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
@@ -287,12 +446,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   value: sortBy,
                   underline: const SizedBox(),
                   icon: const Icon(Icons.keyboard_arrow_down, color: Colors.orange),
+<<<<<<< HEAD
+=======
+                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
                   onChanged: (val) => setState(() => sortBy = val!),
                   items: ['Әдепкі', 'Арзан', 'Қымбат', 'Рейтинг'].map((v) => DropdownMenuItem(value: v, child: Text(v))).toList(),
                 ),
               ],
             ),
           ),
+<<<<<<< HEAD
+=======
+          // Тауарлар тізімі
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
           Expanded(
             child: filteredProducts.isEmpty 
               ? const Center(child: Text("Ештеңе табылмады 😕"))
@@ -300,12 +467,103 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.all(16),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
+<<<<<<< HEAD
                     childAspectRatio: 0.65, 
+=======
+                    childAspectRatio: 0.61, 
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
                     crossAxisSpacing: 15,
                     mainAxisSpacing: 15,
                   ),
                   itemCount: filteredProducts.length,
+<<<<<<< HEAD
                   itemBuilder: (context, index) => _buildProductCard(filteredProducts[index]),
+=======
+<<<<<<< HEAD
+                  itemBuilder: (context, index) => _buildProductCard(filteredProducts[index]),
+=======
+                  itemBuilder: (context, index) {
+                    final phone = filteredProducts[index];
+                    final variants = phone['variants'] as List;
+                    final int startingPrice = variants.isNotEmpty ? (variants[0]['price'] ?? 0) : 0;
+                    
+                    bool isFavorite = favoriteItems.any((item) => item['name'] == phone['name']);
+
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ProductDetailScreen(product: phone)),
+                        );
+                      },
+                      child: Card(
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                        child: Stack(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Center(
+                                      child: Image.network(
+                                        (phone['images'] as List)[0], // images тізімінен бірінші суретті алу
+                                        fit: BoxFit.contain,
+                                        errorBuilder: (context, error, stackTrace) => const Icon(Icons.smartphone, size: 50),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(phone['name'], 
+                                        style: const TextStyle(fontWeight: FontWeight.bold),
+                                        maxLines: 1, overflow: TextOverflow.ellipsis),
+                                      const SizedBox(height: 4),
+                                      Text('$startingPrice ₸', 
+                                        style: const TextStyle(color: Colors.orange, fontWeight: FontWeight.bold)),
+                                      const SizedBox(height: 4),
+                                      Row(
+                                        children: [
+                                          const Icon(Icons.star, color: Colors.amber, size: 14),
+                                          Text(" ${phone['rating'] ?? 0.0}", style: const TextStyle(fontSize: 12)),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Positioned(
+                              right: 5, top: 5,
+                              child: IconButton(
+                                icon: Icon(
+                                  isFavorite ? Icons.favorite : Icons.favorite_border, 
+                                  color: Colors.red
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    if (isFavorite) {
+                                      favoriteItems.removeWhere((i) => i['name'] == phone['name']);
+                                    } else {
+                                      favoriteItems.add(phone);
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+>>>>>>> 18531ef9f022f2350cc8c87f2dba6b9720bf76f6
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
                 ),
           ),
         ],
@@ -313,6 +571,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+<<<<<<< HEAD
   Widget _buildProductCard(Map<String, dynamic> phone) {
     final variants = phone['variants'] as List;
     final int price = variants.isNotEmpty ? variants[0]['price'] : 0;
@@ -395,6 +654,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // Көмекші виджеттер (SectionTitle, PriceField, Chips, ColorDot)
+=======
+  // Көмекші виджеттер
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
   Widget _buildSectionTitle(String title) => Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16));
 
   Widget _buildPriceField(TextEditingController controller, String prefix, Function(String) onChange) {
@@ -423,7 +685,10 @@ class _HomeScreenState extends State<HomeScreen> {
         onSelected: (s) => onSelect(item),
         selectedColor: color,
         labelStyle: TextStyle(color: selected == item ? Colors.white : Colors.black),
+<<<<<<< HEAD
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+=======
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
       )).toList(),
     );
   }
@@ -438,7 +703,10 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedColor: Colors.orange,
         checkmarkColor: Colors.white,
         labelStyle: TextStyle(color: selectedList.contains(item) ? Colors.white : Colors.black),
+<<<<<<< HEAD
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+=======
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
       )).toList(),
     );
   }
@@ -458,4 +726,87 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+<<<<<<< HEAD
+=======
+
+  Widget _buildProductCard(Map<String, dynamic> phone) {
+    final int price = (phone['variants'] as List).isNotEmpty ? phone['variants'][0]['price'] : 0;
+    
+    return GestureDetector(
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailScreen(product: phone))),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10, offset: const Offset(0, 5))],
+        ),
+        child: Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(15),
+                    width: double.infinity,
+                    child: Hero(
+                      tag: phone['name'],
+                      child: Image.network(phone['image'], fit: BoxFit.contain),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(phone['name'], style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13), maxLines: 1, overflow: TextOverflow.ellipsis),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          const Icon(Icons.battery_std, size: 12, color: Colors.green),
+                          const SizedBox(width: 4),
+                          Text("${phone['battery'] ?? '5000 mAh'}", style: const TextStyle(fontSize: 10, color: Colors.grey)),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.camera_alt_outlined, size: 12, color: Colors.blue),
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: Text("${phone['camera'] ?? '48 MP'}", 
+                              style: const TextStyle(fontSize: 10, color: Colors.grey),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      Text('$price ₸', style: const TextStyle(color: Colors.orange, fontWeight: FontWeight.bold, fontSize: 15)),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          const Icon(Icons.star_rounded, color: Colors.amber, size: 16),
+                          Text(" ${phone['rating'] ?? 0.0}", style: const TextStyle(fontSize: 11, color: Colors.grey, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Positioned(
+              top: 5, right: 5,
+              child: IconButton(
+                icon: const Icon(Icons.favorite_border, color: Colors.red, size: 22),
+                onPressed: () {},
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+>>>>>>> af1748983e5895345d40250ce6d2e45b58aabcd1
 }
