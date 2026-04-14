@@ -51,6 +51,18 @@ final List<Map<String, dynamic>> phoneProducts = [
     'specs': {'screen': 'N/A', 'cpu': 'H2 Chip', 'battery': '6h (30h total)', 'camera': 'N/A'},
     'variants': [{'ram': 'White', 'price': 66700}],
   },
+  {
+    'name': 'Apple Watch Ultra 3', 
+    'brand': 'Apple',
+    'rating': 5.0,
+    'images': [
+      'https://cdn.mos.cms.futurecdn.net/WfBTbmRcEPA3cuWUWe5z9N.jpg',
+      'https://cdn.mos.cms.futurecdn.net/WfBTbmRcEPA3cuWUWe5z9N.jpg'
+    ],
+    'description': 'Экстремалды спорт пен белсенді өмір салтына арналған ең мықты сағат.',
+    'specs': {'screen': '1.92" LTPO OLED', 'cpu': 'S10 SiP', 'battery': '36-72h', 'camera': 'N/A'},
+    'variants': [{'ram': 'Titanium', 'price': 450000}],
+  },
 
   // SAMSUNG
   {
