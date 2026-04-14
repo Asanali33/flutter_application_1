@@ -39,6 +39,18 @@ final List<Map<String, dynamic>> phoneProducts = [
     'specs': {'screen': '6.1" OLED', 'cpu': 'A15 Bionic', 'battery': '3240 mAh', 'camera': '12+12 MP'},
     'variants': [{'ram': '128GB', 'price': 285000}],
   },
+  {
+    'name': 'Apple AirPods Pro 2', 
+    'brand': 'Apple',
+    'rating': 4.9,
+    'images': [
+      'https://mir-s3-cdn-cf.behance.net/project_modules/fs/378f3e141582491.625697a7e8108.jpg',
+      'https://mir-s3-cdn-cf.behance.net/project_modules/fs/378f3e141582491.625697a7e8108.jpg'
+    ],
+    'description': 'Шуды белсенді басу және кеңістіктік дыбыс мүмкіндігі.',
+    'specs': {'screen': 'N/A', 'cpu': 'H2 Chip', 'battery': '6h (30h total)', 'camera': 'N/A'},
+    'variants': [{'ram': 'White', 'price': 66700}],
+  },
 
   // SAMSUNG
   {
@@ -244,8 +256,8 @@ final List<Map<String, dynamic>> phoneProducts = [
     'brand': 'Marshall', 
     'rating': 4.9,
     'images': [
-      'https://media.karousell.com/media/photos/products/2020/6/3/gss_promo_marshall_major_iii_v_1591203352_66a99493',
-      'https://media.karousell.com/media/photos/products/2020/6/3/gss_promo_marshall_major_iii_v_1591203352_66a99493'
+      'https://http2.mlstatic.com/D_Q_NP_2X_767493-MLA44436715428_122020-V.webp',
+      'https://http2.mlstatic.com/D_Q_NP_2X_767493-MLA44436715428_122020-V.webp'
     ],
     'description': 'Аңызға айналған дыбыс және 100 сағаттан астам сымсыз жұмыс уақыты.',
     'specs': {'screen': 'N/A', 'cpu': 'Custom Driver', 'battery': '100h+ Wireless', 'camera': 'N/A'},
@@ -261,7 +273,7 @@ final List<Map<String, dynamic>> phoneProducts = [
     ],
     'description': 'Ыңғайлы дизайн және қолжетімді бағадағы сапалы дыбыс.',
     'specs': {'screen': 'N/A', 'cpu': 'JL Chip', 'battery': '12h Playback', 'camera': 'N/A'},
-    'variants': [{'ram': 'Black', 'price': 75000}],
+    'variants': [{'ram': 'Black', 'price': 7500}],
   },
 ];
 
