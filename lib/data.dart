@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// 1. Тауарлар тізімі (Тек фото сілтемелері тізімге өзгертілді)
+// 1. Тауарлар тізімі
 final List<Map<String, dynamic>> phoneProducts = [
   // APPLE
   {
@@ -102,6 +102,18 @@ final List<Map<String, dynamic>> phoneProducts = [
     'description': '200 Мп камера және 120 Вт жылдам қуаттау.',
     'specs': {'screen': '6.67" AMOLED 120Hz', 'cpu': 'Helio G99-Ultra', 'battery': '5000 mAh', 'camera': '200+8+2 MP'},
     'variants': [{'ram': '256GB', 'price': 145000}],
+  },
+  {
+    'name': 'Redmi Note 12 Pro', 
+    'brand': 'Xiaomi',
+    'rating': 4.4,
+    'images': [
+      'https://ir.ozone.ru/s3/multimedia-6/c1000/6644312502.jpg',
+      'https://ir.ozone.ru/s3/multimedia-6/c1000/6644312502.jpg'
+    ],
+    'description': 'Керемет OLED экран және 67 Вт жылдам қуаттау.',
+    'specs': {'screen': '6.67" OLED 120Hz', 'cpu': 'Dimensity 1080', 'battery': '5000 mAh', 'camera': '50+8+2 MP'},
+    'variants': [{'ram': '128GB', 'price': 115000}, {'ram': '256GB', 'price': 130000}],
   },
   {
     'name': 'Poco F6 Pro', 
