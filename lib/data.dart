@@ -11,7 +11,7 @@ final List<Map<String, dynamic>> phoneProducts = [
       'https://ir.ozone.ru/s3/multimedia-1-o/7129349196.jpg',
       'https://openshop.ua/images/detailed/189/apple-iphone-15-pro-128gb-black-titanium-1.jpg'
     ],
-    'description': 'Титан корпусы, A17 Pro чипі және кәсіби деңгідегі 48 Мп камера жүйесі.',
+    'description': 'Титан корпусы, A17 Pro чипі және кәсіби деңгейдегі 48 Мп камера жүйесі.',
     'specs': {'screen': '6.1" OLED 120Hz', 'cpu': 'A17 Pro', 'battery': '3274 mAh', 'camera': '48+12+12 MP'},
     'variants': [{'ram': '128GB', 'price': 580000}, {'ram': '256GB', 'price': 650000}],
   },
@@ -108,8 +108,8 @@ final List<Map<String, dynamic>> phoneProducts = [
     'brand': 'Xiaomi',
     'rating': 4.4,
     'images': [
-      'https://tse4.mm.bing.net/th/id/OIP.1V0gluCG3evUEVMTbU8QJQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3',
-      'https://tse4.mm.bing.net/th/id/OIP.1V0gluCG3evUEVMTbU8QJQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3'
+      'https://tse4.mm.bing.net/th/id/OIP.tRcvdw8ZvY61IBen4yResgHaHZ?rs=1&pid=ImgDetMain&o=7&rm=3',
+      'https://tse4.mm.bing.net/th/id/OIP.tRcvdw8ZvY61IBen4yResgHaHZ?rs=1&pid=ImgDetMain&o=7&rm=3'
     ],
     'description': 'Керемет OLED экран және 67 Вт жылдам қуаттау.',
     'specs': {'screen': '6.67" OLED 120Hz', 'cpu': 'Dimensity 1080', 'battery': '5000 mAh', 'camera': '50+8+2 MP'},
@@ -244,12 +244,24 @@ final List<Map<String, dynamic>> phoneProducts = [
     'brand': 'Marshall', 
     'rating': 4.9,
     'images': [
-      'https://tse4.mm.bing.net/th/id/OIP.x2C5D8jW39TYPMMq_h78vgHaJ4?w=1875&h=2500&rs=1&pid=ImgDetMain&o=7&rm=3',
-      'https://tse4.mm.bing.net/th/id/OIP.x2C5D8jW39TYPMMq_h78vgHaJ4?w=1875&h=2500&rs=1&pid=ImgDetMain&o=7&rm=3'
+      'https://media.karousell.com/media/photos/products/2020/6/3/gss_promo_marshall_major_iii_v_1591203352_66a99493',
+      'https://media.karousell.com/media/photos/products/2020/6/3/gss_promo_marshall_major_iii_v_1591203352_66a99493'
     ],
     'description': 'Аңызға айналған дыбыс және 100 сағаттан астам сымсыз жұмыс уақыты.',
     'specs': {'screen': 'N/A', 'cpu': 'Custom Driver', 'battery': '100h+ Wireless', 'camera': 'N/A'},
     'variants': [{'ram': 'Black', 'price': 85000}],
+  },
+  {
+    'name': 'Hoco W25', 
+    'brand': 'Hoco', 
+    'rating': 4.3,
+    'images': [
+      'https://cdn.27.ua/sc--media--prod/default/0e/49/f6/0e49f63f-59f7-45b3-ba99-b3d8b70e05aa.jpg',
+      'https://cdn.27.ua/sc--media--prod/default/0e/49/f6/0e49f63f-59f7-45b3-ba99-b3d8b70e05aa.jpg'
+    ],
+    'description': 'Ыңғайлы дизайн және қолжетімді бағадағы сапалы дыбыс.',
+    'specs': {'screen': 'N/A', 'cpu': 'JL Chip', 'battery': '12h Playback', 'camera': 'N/A'},
+    'variants': [{'ram': 'Black', 'price': 75000}],
   },
 ];
 
