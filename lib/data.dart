@@ -11,7 +11,7 @@ List<Map<String, dynamic>> phoneProducts = [
       'https://www.avmk.kz/image/cache/catalog/Apple/14173195-iphone11-green-select-2019-1280x1280.png',
       'https://www.avmk.kz/image/cache/catalog/Apple/14173195-iphone11-green-select-2019-1280x1280.png',
     ],
-    'description': 'Liquid Retina HD дисплейі және екі камералы жүйе.',
+    'description': 'Liquid Retina дисплейі және екі камералы жүйе.',
     'specs': {
       'screen': '6.1" LCD',
       'cpu': 'A13 Bionic',
