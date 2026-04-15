@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
+import 'seller_screen.dart'; 
+// ЕГЕР ТІРКЕЛГЕН СОҢ БАСТЫ БЕТКЕ ӨТУ КЕРЕК БОЛСА, МЫНА ИМПОРТТЫ ҚОС:
+import 'main.dart'; 
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -14,6 +17,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+
+  // ӨЗГЕРТІЛДІ: Сатушы ма, жоқ па екенін анықтайтын айнымалы
+  bool _isSeller = false;
 
   void _register() {
     String name = _nameController.text.trim();
@@ -38,11 +44,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     // Тіркелу сәтті өткен жағдайды имитациялау
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Тіркелу сәтті аяқталды! Кіріңіз.'), backgroundColor: Colors.green),
+      const SnackBar(content: Text('Тіркелу сәтті аяқталды!'), backgroundColor: Colors.green),
     );
 
-    // Тіркелгеннен кейін қайтадан LoginScreen-ге жіберу
-    Navigator.pop(context);
+    // ӨЗГЕРТІЛДІ: Тіркелгеннен кейін таңдауға байланысты бетке бағыттау
+    if (_isSeller) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const SellerScreen()),
+      );
+    } else {
+      // Қолданушы болса басты бетке (MainNavigation) немесе логинге жіберу
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MainNavigation()),
+      );
+    }
   }
 
   @override
@@ -115,7 +132,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
                 ),
               ),
-              const SizedBox(height: 30),
+              
+              // ЖАҢАДАН ҚОСЫЛҒАН: Сатушы ретінде тіркелу таңдауы
+              const SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Сатушы ретінде тіркелу", style: TextStyle(fontSize: 16)),
+                  Switch(
+                    value: _isSeller,
+                    activeColor: Colors.orange,
+                    onChanged: (value) {
+                      setState(() {
+                        _isSeller = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15),
 
               // Тіркелу батырмасы
               SizedBox(
