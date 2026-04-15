@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-// 1. Тауарлар тізімі
-final List<Map<String, dynamic>> phoneProducts = [
+// ТҮЗЕТІЛДІ: final сөзі алынды, осылайша сатушы жаңа тауар қоса алады
+List<Map<String, dynamic>> phoneProducts = [
   // APPLE
   {
     'name': 'iPhone 15 Pro', 

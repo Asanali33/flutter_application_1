@@ -3,6 +3,8 @@ import 'home_screen.dart';
 import 'register_screen.dart';
 // ЕГЕР СЕНДЕ КЛАСС main.dart ІШІНДЕ БОЛСА, СОНЫ ИМПОРТТА:
 import 'main.dart'; 
+// САТУШЫ ПАНЕЛІНЕ ӨТУ ҮШІН ОСЫ ФАЙЛ КЕРЕК:
+import 'seller_screen.dart'; 
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,10 +22,43 @@ class _LoginScreenState extends State<LoginScreen> {
     String password = _passwordController.text.trim();
 
     if (email == "sundet.nazar" && password == "Sundet05") {
-      // ТҮЗЕТІЛДІ: Себет пен меню көрінуі үшін MainNavigation класына өтеміз
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MainNavigation()),
+      // ТҮЗЕТІЛДІ: Тікелей өтпей, алдымен таңдау диалогын шығарамыз
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          title: const Text("Кіру түрін таңдаңыз", textAlign: TextAlign.center),
+          content: const Text("Жүйеге кім ретінде кіргіңіз келеді?"),
+          actionsAlignment: MainAxisAlignment.spaceEvenly,
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Диалогты жабу
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MainNavigation()),
+                );
+              },
+              child: const Text("Қолданушы", style: TextStyle(color: Colors.grey, fontSize: 16)),
+            ),
+            // ОСЫ БАТЫРМА САТУШЫНЫҢ МҮМКІНДІКТЕРІНЕ (SellerScreen) ЖІБЕРЕДІ
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              onPressed: () {
+                Navigator.pop(context); // Диалогты жабу
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SellerScreen()),
+                );
+              },
+              child: const Text("Сатушы", style: TextStyle(color: Colors.white, fontSize: 16)),
+            ),
+          ],
+        ),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
