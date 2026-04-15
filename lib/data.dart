@@ -11,7 +11,7 @@ final List<Map<String, dynamic>> phoneProducts = [
       'https://ir.ozone.ru/s3/multimedia-1-o/7129349196.jpg',
       'https://openshop.ua/images/detailed/189/apple-iphone-15-pro-128gb-black-titanium-1.jpg'
     ],
-    'description': 'Титан корпусы, A17 Pro чипі және кәсіби деңгейдегі 48 Мп kamera жүйесі.',
+    'description': 'Титан корпусы, A17 Pro чипі және кәсіби деңгейдегі 48 Мп камера жүйесі.',
     'specs': {'screen': '6.1" OLED 120Hz', 'cpu': 'A17 Pro', 'battery': '3274 mAh', 'camera': '48+12+12 MP'},
     'variants': [{'ram': '128GB', 'price': 580000}, {'ram': '256GB', 'price': 650000}],
   },
@@ -228,7 +228,43 @@ final List<Map<String, dynamic>> phoneProducts = [
     'variants': [{'ram': '8GB/512GB', 'price': 245000}],
   },
 
-  // БАСҚАЛАР
+  // БАСҚАЛАР ЖӘНЕ АКСЕССУАРЛАР
+  {
+    'name': 'JBL Tune 520BT', 
+    'brand': 'JBL', 
+    'rating': 4.8,
+    'images': [
+      'https://m.media-amazon.com/images/I/512LuQyL3BL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/512LuQyL3BL._AC_SL1500_.jpg'
+    ],
+    'description': 'JBL Pure Bass дыбысы және 57 сағатқа дейін жұмыс істейтін батарея.',
+    'specs': {'screen': 'N/A', 'cpu': 'Bluetooth 5.3', 'battery': '57h Playback', 'camera': 'N/A'},
+    'variants': [{'ram': 'Blue', 'price': 22000}],
+  },
+  {
+    'name': 'GERLAX GH-34', 
+    'brand': 'Gerlax', 
+    'rating': 4.2,
+    'images': [
+      'https://tse2.mm.bing.net/th/id/OIP.V9qTqL_RVDGghMl-ugRYOQHaHa?w=1020&h=1020&rs=1&pid=ImgDetMain&o=7&rm=3',
+      'https://tse2.mm.bing.net/th/id/OIP.V9qTqL_RVDGghMl-ugRYOQHaHa?w=1020&h=1020&rs=1&pid=ImgDetMain&o=7&rm=3'
+    ],
+    'description': 'Күнделікті қолданысқа арналған қолжетімді әрі ыңғайлы құлаққап.',
+    'specs': {'screen': 'N/A', 'cpu': 'Standard Driver', 'battery': 'Up to 10h', 'camera': 'N/A'},
+    'variants': [{'ram': 'Black', 'price': 55000}],
+  },
+  {
+    'name': 'HyperX Cloud 3', 
+    'brand': 'HyperX', 
+    'rating': 4.9,
+    'images': [
+      'https://m.media-amazon.com/images/I/71++S+DNJ+L._AC_UY545_QL65_.jpg',
+      'https://m.media-amazon.com/images/I/71++S+DNJ+L._AC_UY545_QL65_.jpg'
+    ],
+    'description': 'Геймерлерге арналған аңызға айналған жайлылық пен көлемді дыбыс.',
+    'specs': {'screen': 'N/A', 'cpu': '53mm Drivers', 'battery': 'Wired', 'camera': 'N/A'},
+    'variants': [{'ram': 'Red/Black', 'price': 58000}],
+  },
   {
     'name': 'Google Pixel 8 Pro', 
     'brand': 'Google', 
