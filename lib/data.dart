@@ -178,6 +178,44 @@ final List<Map<String, dynamic>> phoneProducts = [
     'variants': [{'ram': '256GB', 'price': 210000}],
   },
 
+  // NOUTBOOKTAR
+  {
+    'name': 'Lenovo Legion 5 Pro', 
+    'brand': 'Lenovo', 
+    'rating': 4.9,
+    'images': [
+      'https://slickdeals.net/attachment/2/6/8/0/6/1/2/1/450x450/14479837.thumb',
+      'https://slickdeals.net/attachment/2/6/8/0/6/1/2/1/450x450/14479837.thumb'
+    ],
+    'description': 'Геймерлерге арналған жоғары өнімділіктегі ноутбук.',
+    'specs': {'screen': '16" QHD 165Hz', 'cpu': 'Ryzen 7 / RTX 4060', 'battery': '80Wh', 'camera': '720p HD'},
+    'variants': [{'ram': '16GB/512GB', 'price': 680000}],
+  },
+  {
+    'name': 'Asus Vivobook 16', 
+    'brand': 'Asus', 
+    'rating': 4.6,
+    'images': [
+      'https://tse4.mm.bing.net/th/id/OIP.AFf7CWG_FrgNtJ18m2pFRwHaFD?w=742&h=507&rs=1&pid=ImgDetMain&o=7&rm=3',
+      'https://tse4.mm.bing.net/th/id/OIP.AFf7CWG_FrgNtJ18m2pFRwHaFD?w=742&h=507&rs=1&pid=ImgDetMain&o=7&rm=3'
+    ],
+    'description': 'Оқу мен жұмысқа арналған ыңғайлы әрі жеңіл ноутбук.',
+    'specs': {'screen': '16" WUXGA', 'cpu': 'Intel Core i5', 'battery': '42Wh', 'camera': '720p with Shutter'},
+    'variants': [{'ram': '8GB/256GB', 'price': 295000}],
+  },
+  {
+    'name': 'Acer Aspire 5', 
+    'brand': 'Acer', 
+    'rating': 4.5,
+    'images': [
+      'https://s13emagst.akamaized.net/products/64675/64674652/images/res_897176d9c3997f61f49b3dde41118e04.jpg',
+      'https://s13emagst.akamaized.net/products/64675/64674652/images/res_897176d9c3997f61f49b3dde41118e04.jpg'
+    ],
+    'description': 'Күнделікті тапсырмаларға арналған сенімді таңдау.',
+    'specs': {'screen': '15.6" Full HD', 'cpu': 'Intel Core i3 / i5', 'battery': '50Wh', 'camera': '1080p F-HD'},
+    'variants': [{'ram': '8GB/512GB', 'price': 245000}],
+  },
+
   // БАСҚАЛАР
   {
     'name': 'Google Pixel 8 Pro', 
