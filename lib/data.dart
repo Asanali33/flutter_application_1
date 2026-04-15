@@ -11,7 +11,7 @@ final List<Map<String, dynamic>> phoneProducts = [
       'https://ir.ozone.ru/s3/multimedia-1-o/7129349196.jpg',
       'https://openshop.ua/images/detailed/189/apple-iphone-15-pro-128gb-black-titanium-1.jpg'
     ],
-    'description': 'Титан корпусы, A17 Pro чипі және кәсіби деңгейдегі 48 Мп камера жүйесі.',
+    'description': 'Титан корпусы, A17 Pro чипі және кәсіби деңгейдегі 48 Мп kamera жүйесі.',
     'specs': {'screen': '6.1" OLED 120Hz', 'cpu': 'A17 Pro', 'battery': '3274 mAh', 'camera': '48+12+12 MP'},
     'variants': [{'ram': '128GB', 'price': 580000}, {'ram': '256GB', 'price': 650000}],
   },
@@ -190,6 +190,18 @@ final List<Map<String, dynamic>> phoneProducts = [
     'description': 'Геймерлерге арналған жоғары өнімділіктегі ноутбук.',
     'specs': {'screen': '16" QHD 165Hz', 'cpu': 'Ryzen 7 / RTX 4060', 'battery': '80Wh', 'camera': '720p HD'},
     'variants': [{'ram': '16GB/512GB', 'price': 680000}],
+  },
+  {
+    'name': 'Asus TUF Gaming F15',
+    'brand': 'Asus',
+    'rating': 4.8,
+    'images': [
+      'https://tse4.mm.bing.net/th/id/OIP.IiloKn7kKxlop-IyYCHFIwHaFy?w=590&h=461&rs=1&pid=ImgDetMain&o=7&rm=3',
+      'https://tse4.mm.bing.net/th/id/OIP.IiloKn7kKxlop-IyYCHFIwHaFy?w=590&h=461&rs=1&pid=ImgDetMain&o=7&rm=3'
+    ],
+    'description': 'Әскери деңгейдегі төзімділік пен қуатты ойын мүмкіндіктері.',
+    'specs': {'screen': '15.6" FHD 144Hz', 'cpu': 'Intel Core i7-12700H', 'battery': '90Wh', 'camera': '720p HD'},
+    'variants': [{'ram': '16GB/1TB', 'price': 520000}],
   },
   {
     'name': 'Asus Vivobook 16', 
